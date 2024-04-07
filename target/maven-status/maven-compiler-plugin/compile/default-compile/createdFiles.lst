@@ -1,0 +1,4 @@
+Modelo\Producto.class
+config\Conexion.class
+Modelo_DAO\Producto_DAO.class
+config\test.class
