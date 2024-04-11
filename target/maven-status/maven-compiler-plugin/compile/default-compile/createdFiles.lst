@@ -1,4 +1,7 @@
+util\carrito.class
+config\test.class
+Controlador\Carrito_Controlador.class
 Modelo\Producto.class
 config\Conexion.class
 Modelo_DAO\Producto_DAO.class
-config\test.class
+app\AppInitializer.class

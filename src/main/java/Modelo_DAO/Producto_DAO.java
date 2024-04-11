@@ -35,6 +35,8 @@ public class Producto_DAO {
                 obj.setNombre(rs.getString("nombre"));
                 obj.setPrecio(rs.getDouble("precio"));
                 obj.setImagen(rs.getString("imagen"));
+                obj.setDescripcion(rs.getString("descripcion"));
+                obj.setIdCategoria(rs.getInt("id_categoria"));
                 lista.add(obj);
 
             }
@@ -58,5 +60,51 @@ public class Producto_DAO {
         }
 
         return lista;
+    }
+    
+    
+    
+
+    public Producto buscarId(int id) {
+        Producto obj = null;
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "select * from productos where id_producto = ?";
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                obj = new Producto();
+                obj.setIdProd(rs.getInt("id_producto"));
+                obj.setNombre(rs.getString("nombre"));
+                obj.setPrecio(rs.getDouble("precio"));
+                obj.setImagen(rs.getString("imagen"));
+                obj.setDescripcion(rs.getString("descripcion"));
+                obj.setIdCategoria(rs.getInt("id_categoria"));
+                
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return obj;
     }
 }
