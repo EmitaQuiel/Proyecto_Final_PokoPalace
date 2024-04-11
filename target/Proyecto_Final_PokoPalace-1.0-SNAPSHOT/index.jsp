@@ -21,7 +21,8 @@
   </head>
   <body>
     <header>
-      <nav>
+        <div class="header-container">
+            <nav>
         <a href="">Inicio</a>
         <a href="./productos.jsp">Productos</a>
         <a href="">Noticias</a>
@@ -29,6 +30,8 @@
         <a href="">Descuentos</a>
         <a href="">Contacto</a>
       </nav>
+        </div>
+      
     </header>
     <section>
       <div class="tarjetas_desplegables">

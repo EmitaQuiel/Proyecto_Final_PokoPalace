@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Modelo;
 
-/**
- *
- * @author Emi
- */
 public class Producto {
     private int idProd;
     private String nombre;
@@ -15,6 +8,7 @@ public class Producto {
     private String imagen;
     private String descripcion;
     private int idCategoria;
+    private String nombreCategoria;
     
     public int getIdProd() {
         return idProd;
@@ -63,6 +57,14 @@ public class Producto {
 
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
     
 }

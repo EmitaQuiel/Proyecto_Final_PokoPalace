@@ -9,6 +9,7 @@ import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +27,7 @@ public class Producto_DAO {
 
         try {
             cn = Conexion.getConnection();
-            String sql = "select * from productos";
+            String sql = "SELECT p.*, cp.nombre_categoria AS nombre_categoria FROM productos p INNER JOIN categorias_productos cp ON p.id_categoria = cp.id_categoria";
             ps = cn.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -37,7 +38,7 @@ public class Producto_DAO {
                 obj.setPrecio(rs.getDouble("precio"));
                 obj.setImagen(rs.getString("imagen"));
                 obj.setDescripcion(rs.getString("descripcion"));
-                obj.setIdCategoria(rs.getInt("id_categoria"));
+                obj.setNombreCategoria(rs.getString("nombre_categoria"));
                 lista.add(obj);
 
             }
@@ -80,7 +81,6 @@ public class Producto_DAO {
                 obj.setPrecio(rs.getDouble("precio"));
                 obj.setImagen(rs.getString("imagen"));
                 obj.setDescripcion(rs.getString("descripcion"));
-                obj.setIdCategoria(rs.getInt("id_categoria"));
 
             }
 
@@ -146,5 +146,7 @@ public class Producto_DAO {
 
         return lista;
     }
+
+    
 
 }

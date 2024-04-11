@@ -44,58 +44,57 @@
     </head>
     <body>
         <header>
-            <nav>
-                <a href="">Inicio</a>
-                <a href="">Productos</a>
-                <a href="">Sobre Nosotros</a>
-                <a href="">Descuentos</a>
-                <a href="">Contacto</a>
-                <a href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
-            </nav>
+            <div class="header-container">
+                <nav>
+                    <a href="./index.jsp">Inicio</a>
+                    <a href="">Contacto</a>
+                    <a href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
+                </nav>
 
-
-            <section>
-                <!-- Formulario de búsqueda -->
-                <form action="Carrito_Controlador" method="get">
-                    <input type="hidden" name="accion" value="buscar">
-                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-                    <button type="submit">Buscar</button>
-                </form>
-
-                <!-- Mostrar los resultados de la búsqueda -->
-                <c:forEach items="${productos}" var="item">
-                    <div class="cards-products">
-                        <!-- Resto del código para mostrar cada producto -->
-                    </div>
-                </c:forEach>
-            </section>
-
-
-
-            <li class="nav-item dropdown">
-                <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    >
-                    Iniciar Sesion
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item" href="#" class="btn btn-dark"
-                           ><i class="fas fa-user-lock"></i> Login</a
+                <li class="nav-item dropdown">
+                    <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
                         >
-                    </li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                        <a class="dropdown-item" href="#" class="btn btn-dark"
-                           ><i class="fas fa-user-plus"></i> Registrarse</a
-                        >
-                    </li>
-                </ul>
-            </li>
+                        Iniciar Sesion
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#" class="btn btn-dark"
+                               ><i class="fas fa-user-lock"></i> Login</a
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item" href="#" class="btn btn-dark"
+                               ><i class="fas fa-user-plus"></i> Registrarse</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+
+
+
+                <section>
+                    <!-- Formulario de búsqueda -->
+                    <form action="Carrito_Controlador" method="get">
+                        <input type="hidden" name="accion" value="buscar">
+                        <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
+                        <button type="submit">Buscar</button>
+                    </form>
+
+                    <!-- Mostrar los resultados de la búsqueda -->
+                    <c:forEach items="${productos}" var="item">
+                        <div class="cards-products">
+                            <!-- Resto del código para mostrar cada producto -->
+                        </div>
+                    </c:forEach>
+                </section>
+            </div>
+
         </header>
 
         <main>
@@ -231,38 +230,47 @@
                 </div>
 
                 <section>
-                    <c:forEach items="${productos}" var="item">
-                        <form action="Carrito_Controlador" method="get">
-                            <div class="cards-products">
-                                <div class="container-products-principal">
-                                    <div class="container-products">
-                                        <div class="images">
-                                            <img
-                                                class="imagen-producto"
-                                                src="assets/img/imagenes_productos/${item.imagen}"
-                                                alt="${item.nombre}"/>
-                                        </div>
-                                        <div class="product-card">
-                                            <p>${item.idCategoria}</p>
-                                            <h1>${item.nombre}</h1>
-                                            <h2>₡${item.precio}</h2>
-                                            <p class="desc">
-                                                ${item.descripcion}
-                                            </p>
-                                            <div class="buttons-product">
-                                                <input type="hidden" name="accion" value="agregar">
-                                                <input type="hidden" name="id" value="${item.idProd}">
-                                                <button type="submit" class="add">Agregar a Carrito</button>
-                                            </div>
+                    <div class="dropdown categorias">
+                        
+
+
+
+                    </div>
+                </section>
+                <c:forEach items="${productos}" var="item">
+                    <form action="Carrito_Controlador" method="get">
+                        <div class="cards-products">
+                            <div class="container-products-principal">
+                                <div class="container-products">
+                                    <div class="images">
+                                        <img
+                                            class="imagen-producto"
+                                            src="assets/img/imagenes_productos/${item.imagen}"
+                                            alt="${item.nombre}"/>
+                                    </div>
+                                    <div class="product-card">
+                                        <p>${item.nombreCategoria}</p>
+                                        <h1>${item.nombre}</h1>
+                                        <h2>₡${item.precio}</h2>
+                                        <p class="desc">
+                                            ${item.descripcion}
+                                        </p>
+                                        <div class="buttons-product">
+                                            <input type="hidden" name="accion" value="agregar">
+                                            <input type="hidden" name="id" value="${item.idProd}">
+                                            <button type="submit" class="add">Agregar a Carrito</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </c:forEach>
-                </section>
+                        </div>
+                    </form>
+                </c:forEach>
+            </section>
 
         </main>
+
+
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="./js/main.js"></script>
         <script src="./js/m.js"></script>

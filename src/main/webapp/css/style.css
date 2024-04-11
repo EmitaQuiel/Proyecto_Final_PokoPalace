@@ -19,15 +19,22 @@ a, li {
 }
 
 header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    
+}
+
+.header-container {
+    position:relative;
     width: 1140px;
     max-width: 80%;
     margin: auto;
     height: 50px;
     display: flex;
     align-items: center;
-    position: relative;
-    z-index: 100;
-    
 }
 
 header a {
@@ -1026,4 +1033,11 @@ header a:hover {
 .product-card button:hover {
     background: #ba7e7e;
     transition: all 0.4s ease-in-out;
+}
+
+.container-products-carrito{
+    position: relative;
+    top: 80px;
+    margin: 30px;
+    
 }
