@@ -43,6 +43,12 @@ public class Carrito_Controlador extends HttpServlet {
             case "vaciar":
                 VaciarCarrito(request, response);
                 break;
+            case "aumentar":
+                Aumentar(request, response);
+                break;
+            case "disminuir":
+                Disminuir(request, response);
+                break;
 
             default:
                 throw new AssertionError();
@@ -112,6 +118,29 @@ public class Carrito_Controlador extends HttpServlet {
     protected void VaciarCarrito(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         objCarrito.vaciarCarrito(request);
+        response.sendRedirect("Carrito_Controlador?accion=listar");
+    }
+
+    protected void Aumentar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int indice = Integer.parseInt(request.getParameter("indice"));
+        ArrayList<detallePedido> lista = objCarrito.obtenerSesion(request);
+        detallePedido item = lista.get(indice);
+        item.aumentarCantidad(1); // Aumentar en 1 la cantidad
+        objCarrito.guardarSesion(request, lista);
+        response.sendRedirect("Carrito_Controlador?accion=listar");
+    }
+
+    protected void Disminuir(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int indice = Integer.parseInt(request.getParameter("indice"));
+        ArrayList<detallePedido> lista = objCarrito.obtenerSesion(request);
+        detallePedido item = lista.get(indice);
+        int cantidad = item.getCantidad();
+        if (cantidad > 1) {
+            item.setCantidad(cantidad - 1); // Disminuir en 1 la cantidad
+        }
+        objCarrito.guardarSesion(request, lista);
         response.sendRedirect("Carrito_Controlador?accion=listar");
     }
 

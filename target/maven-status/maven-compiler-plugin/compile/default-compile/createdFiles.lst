@@ -1,4 +1,5 @@
 util\carrito.class
+Modelo\Pago.class
 config\test.class
 Controlador\Carrito_Controlador.class
 Modelo\Producto.class

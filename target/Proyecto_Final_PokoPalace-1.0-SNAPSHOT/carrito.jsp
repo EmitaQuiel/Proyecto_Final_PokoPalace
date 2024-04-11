@@ -43,7 +43,6 @@
             <section class="container-products-carrito">
                 <div class="row">
                     <div class="col-sm-9">
-
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -55,14 +54,16 @@
                                                 <th>Precio</th>
                                                 <th>Cantidad</th>
                                                 <th>Precio Total</th>
+                                                <th>Anadir</th>
+                                                <th>Disminuir</th>
                                                 <th>Eliminar</th>
                                             </tr> 
                                         </thead>
+
                                         <tbody>
+                                        <div>
                                             <a href="Carrito_Controlador?accion=vaciar" class="btn btn-danger">Vaciar Carrito</a>
                                             <c:forEach items="${carrito}" var="item" varStatus="loop">
-                                                
-
                                                 <tr>
                                                     <td><img src="assets/img/imagenes_productos/${item.producto.imagen}" width="50" height="60" alt="${item.producto.nombre}"></td>
                                                     <td>${item.producto.nombre}</td>
@@ -70,10 +71,23 @@
                                                     <td>${item.cantidad}</td>
                                                     <td>${item.importe()}</td>
                                                     <td>
+                                                        <form action="Carrito_Controlador" method="post">
+                                                            <input type="hidden" name="accion" value="aumentar">
+                                                            <input type="hidden" name="indice" value="${loop.index}">
+                                                            <button type="submit" class="btn btn-primary btn-sm">+</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form action="Carrito_Controlador" method="post">
+                                                            <input type="hidden" name="accion" value="disminuir">
+                                                            <input type="hidden" name="indice" value="${loop.index}">
+                                                            <button type="submit" class="btn btn-danger btn-sm">-</button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
                                                         <a href="Carrito_Controlador?accion=eliminar&indice=${loop.index}" title="Eliminar" class="btn btn-danger btn-sm">
                                                             <i class="fa fa-trash-alt"></i>
                                                         </a>
-                                                            
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -82,6 +96,7 @@
                                                     <td colspan="6">Carrito Vacio</td>
                                                 </tr>
                                             </c:if>
+                                        </div>
                                         </tbody>
                                     </table>
                                 </div>
@@ -96,8 +111,12 @@
                                     <h5>Resumen compra</h5>
                                     <hr/>
                                     <div class="d-flex justify-content-between mb-4">
-                                        <p class="mb-2">Total</p>
+
+                                        <p class="mb-2">Subtotal:</p>
                                         <p class="mb-2">₡ ${total}</p>
+                                        <p class="mb-2">Total con I.V.A:</p>
+                                        <p class="mb-2">₡ ${total}</p>
+
                                     </div>
                                     <button class="btn btn-warning btn-block btn-lg">
                                         <div class="d-flex justify-content-between">
@@ -109,11 +128,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
-
-
         </main>
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

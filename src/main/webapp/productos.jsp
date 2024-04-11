@@ -50,7 +50,8 @@
                     <a href="./index.jsp">Inicio</a>
                     <a href="./productos.jsp">Productos</a>
                     <a href="">Contacto</a>
-                    <a href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
+                    <a id="cartLink" href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
+
                 </nav>
 
                 <li class="nav-item dropdown">
@@ -262,7 +263,8 @@
                                             <div class="buttons-product">
                                                 <input type="hidden" name="accion" value="agregar">
                                                 <input type="hidden" name="id" value="${item.idProd}">
-                                                <button type="submit" class="add">Agregar a Carrito</button>
+                                                <button type="button" class="add" onclick="agregarAlCarrito(${item.idProd})">Agregar a Carrito</button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -270,7 +272,6 @@
                             </div>
                         </form>
                     </c:forEach>
-
                 </section>
                 <c:if test="${totalPaginas > 1}">
                     <div class="pagination">
@@ -295,6 +296,29 @@
                     </div>
                 </c:if>
         </main>
+
+        <script>
+            function agregarAlCarrito(idProducto) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // Manejar la respuesta del servlet aquí
+                        alert("Producto agregado al carrito");
+
+                        // Actualizar el número de elementos en el carrito en el enlace
+                        var cartLink = document.getElementById("cartLink");
+                        var cartItemCount = parseInt(cartLink.querySelector(".fw-bold").innerText); // Obtener el número actual de elementos en el carrito
+                        cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1; // Incrementar el número de elementos en 1
+                    }
+                };
+                xhttp.open("GET", "Carrito_Controlador?accion=agregar&id=" + idProducto, true);
+                xhttp.send();
+            }
+        </script>
+
+
+
+
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="./js/funcionalidades_index.js"></script>
