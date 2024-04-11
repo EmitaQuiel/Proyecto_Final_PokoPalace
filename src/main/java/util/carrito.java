@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import Modelo.detallePedido;
@@ -53,12 +49,6 @@ public class carrito {
 
     }
     
-    
-
-    
-
-    
-
     public int existeProducto(ArrayList<detallePedido> lista, int idProd) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getProducto().getIdProd() == idProd) {
@@ -67,4 +57,11 @@ public class carrito {
         }
         return -1;
     }
+    
+    public void vaciarCarrito(HttpServletRequest request) {
+    ArrayList<detallePedido> lista = obtenerSesion(request);
+    lista.clear();
+    guardarSesion(request, lista);
+}
+
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo_DAO;
 
 import Modelo.Producto;
@@ -12,10 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author Emi
- */
 public class Producto_DAO {
 
     private Connection cn = null;
@@ -147,6 +139,45 @@ public class Producto_DAO {
         return lista;
     }
 
-    
+    public ArrayList<Producto> buscarPorCategoria(String categoria) {
+        ArrayList<Producto> lista = new ArrayList<Producto>();
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "SELECT p.*, cp.nombre_categoria AS nombre_categoria FROM productos p INNER JOIN categorias_productos cp ON p.id_categoria = cp.id_categoria WHERE cp.nombre_categoria = ?";
+            ps = cn.prepareStatement(sql);
+            ps.setString(1, categoria);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Producto obj = new Producto();
+                obj.setIdProd(rs.getInt("id_producto"));
+                obj.setNombre(rs.getString("nombre"));
+                obj.setPrecio(rs.getDouble("precio"));
+                obj.setImagen(rs.getString("imagen"));
+                obj.setDescripcion(rs.getString("descripcion"));
+                obj.setNombreCategoria(rs.getString("nombre_categoria"));
+                lista.add(obj);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return lista;
+    }
 
 }

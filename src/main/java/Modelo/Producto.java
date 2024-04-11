@@ -33,7 +33,6 @@ public class Producto {
     public void setPrecio(double precio) {
         this.precio = precio;
     }
-
     
     public String getImagen() {
         return imagen;
@@ -66,5 +65,4 @@ public class Producto {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
-    
 }

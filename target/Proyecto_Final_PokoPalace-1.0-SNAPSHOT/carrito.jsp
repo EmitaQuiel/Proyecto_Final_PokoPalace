@@ -59,7 +59,10 @@
                                             </tr> 
                                         </thead>
                                         <tbody>
+                                            <a href="Carrito_Controlador?accion=vaciar" class="btn btn-danger">Vaciar Carrito</a>
                                             <c:forEach items="${carrito}" var="item" varStatus="loop">
+                                                
+
                                                 <tr>
                                                     <td><img src="assets/img/imagenes_productos/${item.producto.imagen}" width="50" height="60" alt="${item.producto.nombre}"></td>
                                                     <td>${item.producto.nombre}</td>
@@ -70,6 +73,7 @@
                                                         <a href="Carrito_Controlador?accion=eliminar&indice=${loop.index}" title="Eliminar" class="btn btn-danger btn-sm">
                                                             <i class="fa fa-trash-alt"></i>
                                                         </a>
+                                                            
                                                     </td>
                                                 </tr>
                                             </c:forEach>

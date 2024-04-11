@@ -4,6 +4,7 @@
     Author     : Emi
 --%>
 
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -47,6 +48,7 @@
             <div class="header-container">
                 <nav>
                     <a href="./index.jsp">Inicio</a>
+                    <a href="./productos.jsp">Productos</a>
                     <a href="">Contacto</a>
                     <a href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
                 </nav>
@@ -231,49 +233,72 @@
 
                 <section>
                     <div class="dropdown categorias">
-                        
-
-
+                        <form action="Carrito_Controlador" method="post">
+                            <input type="radio" name="categoria" value="Peluche"> Peluche
+                            <input type="radio" name="categoria" value="Videojuego"> Videojuego
+                            <input type="radio" name="categoria" value="TCG"> TCG
+                            <input type="radio" name="categoria" value="Figuras"> Figuras
+                            <input type="radio" name="categoria" value="Consolas"> Consolas
+                            <input type="hidden" name="accion" value="filtrar">
+                            <input type="submit" value="Filtrar">
+                        </form>
 
                     </div>
                 </section>
-                <c:forEach items="${productos}" var="item">
-                    <form action="Carrito_Controlador" method="get">
-                        <div class="cards-products">
-                            <div class="container-products-principal">
-                                <div class="container-products">
-                                    <div class="images">
-                                        <img
-                                            class="imagen-producto"
-                                            src="assets/img/imagenes_productos/${item.imagen}"
-                                            alt="${item.nombre}"/>
-                                    </div>
-                                    <div class="product-card">
-                                        <p>${item.nombreCategoria}</p>
-                                        <h1>${item.nombre}</h1>
-                                        <h2>₡${item.precio}</h2>
-                                        <p class="desc">
-                                            ${item.descripcion}
-                                        </p>
-                                        <div class="buttons-product">
-                                            <input type="hidden" name="accion" value="agregar">
-                                            <input type="hidden" name="id" value="${item.idProd}">
-                                            <button type="submit" class="add">Agregar a Carrito</button>
+                <section>
+                    <c:forEach items="${productos}" var="item">
+                        <form action="Carrito_Controlador" method="get">
+                            <div class="cards-products">
+                                <div class="container-products-principal">
+                                    <div class="container-products">
+                                        <div class="images">
+                                            <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
+                                        </div>
+                                        <div class="product-card">
+                                            <p>${item.nombreCategoria}</p>
+                                            <h1>${item.nombre}</h1>
+                                            <h2>₡${item.precio}</h2>
+                                            <p class="desc">${item.descripcion}</p>
+                                            <div class="buttons-product">
+                                                <input type="hidden" name="accion" value="agregar">
+                                                <input type="hidden" name="id" value="${item.idProd}">
+                                                <button type="submit" class="add">Agregar a Carrito</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </c:forEach>
-            </section>
+                        </form>
+                    </c:forEach>
 
+                </section>
+                <c:if test="${totalPaginas > 1}">
+                    <div class="pagination">
+                        <c:if test="${paginaActual > 1}">
+                            <a href="Carrito_Controlador?accion=listar&pagina=1">&laquo; Primera</a>
+                            <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual - 1}">&lt; Anterior</a>
+                        </c:if>
+                        <c:forEach begin="1" end="${totalPaginas}" var="i">
+                            <c:choose>
+                                <c:when test="${i == paginaActual}">
+                                    <span class="current">${i}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="Carrito_Controlador?accion=listar&pagina=${i}">${i}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <c:if test="${paginaActual < totalPaginas}">
+                            <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual + 1}">Siguiente &gt;</a>
+                            <a href="Carrito_Controlador?accion=listar&pagina=${totalPaginas}">Última &raquo;</a>
+                        </c:if>
+                    </div>
+                </c:if>
         </main>
 
-
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="./js/main.js"></script>
-        <script src="./js/m.js"></script>
+        <script src="./js/funcionalidades_index.js"></script>
+        <script src="./js/funcionalidades_productos_pagina.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

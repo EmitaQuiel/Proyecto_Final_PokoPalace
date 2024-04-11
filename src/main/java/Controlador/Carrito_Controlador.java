@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package Controlador;
 
 import Modelo.Producto;
@@ -16,10 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import util.carrito;
 
-/**
- *
- * @author Emi
- */
 public class Carrito_Controlador extends HttpServlet {
 
     private Producto_DAO prodDAO = new Producto_DAO();
@@ -45,6 +37,13 @@ public class Carrito_Controlador extends HttpServlet {
             case "buscar":
                 Buscar(request, response);
                 break;
+            case "filtrar":
+                FiltrarPorCategoria(request, response);
+                break;
+            case "vaciar":
+                VaciarCarrito(request, response);
+                break;
+
             default:
                 throw new AssertionError();
         }
@@ -101,7 +100,21 @@ public class Carrito_Controlador extends HttpServlet {
         request.getRequestDispatcher(listarCarrito).forward(request, response);
     }
 
-    
+    protected void FiltrarPorCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String categoriaSeleccionada = request.getParameter("categoria");
+        ArrayList<Producto> productosFiltrados = prodDAO.buscarPorCategoria(categoriaSeleccionada);
+
+        request.setAttribute("productos", productosFiltrados);
+        request.getRequestDispatcher(pagProducto).forward(request, response);
+    }
+
+    protected void VaciarCarrito(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        objCarrito.vaciarCarrito(request);
+        response.sendRedirect("Carrito_Controlador?accion=listar");
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
