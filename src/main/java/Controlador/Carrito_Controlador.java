@@ -42,9 +42,21 @@ public class Carrito_Controlador extends HttpServlet {
             case "eliminar":
                 Eliminar(request, response);
                 break;
+            case "buscar":
+                Buscar(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
+    }
+
+    protected void Buscar(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nombreProducto = request.getParameter("nombreProducto");
+        ArrayList<Producto> productosEncontrados = prodDAO.buscarPorNombre(nombreProducto);
+
+        request.setAttribute("productos", productosEncontrados);
+        request.getRequestDispatcher(pagProducto).forward(request, response);
     }
 
     protected void Eliminar(HttpServletRequest request, HttpServletResponse response)
@@ -52,13 +64,13 @@ public class Carrito_Controlador extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
         int indice = Integer.parseInt(request.getParameter("indice"));
-        
+
         objCarrito.removerItemCarrito(request, indice);
 
         response.sendRedirect("Carrito_Controlador?accion=listar");
-        
+
     }
-    
+
     protected void Agregar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

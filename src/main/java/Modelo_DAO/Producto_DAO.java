@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * @author Emi
  */
 public class Producto_DAO {
+
     private Connection cn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
@@ -61,9 +62,6 @@ public class Producto_DAO {
 
         return lista;
     }
-    
-    
-    
 
     public Producto buscarId(int id) {
         Producto obj = null;
@@ -83,7 +81,6 @@ public class Producto_DAO {
                 obj.setImagen(rs.getString("imagen"));
                 obj.setDescripcion(rs.getString("descripcion"));
                 obj.setIdCategoria(rs.getInt("id_categoria"));
-                
 
             }
 
@@ -107,4 +104,47 @@ public class Producto_DAO {
 
         return obj;
     }
+
+    public ArrayList<Producto> buscarPorNombre(String nombre) {
+        ArrayList<Producto> lista = new ArrayList<Producto>();
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "SELECT * FROM productos WHERE nombre LIKE ?";
+            ps = cn.prepareStatement(sql);
+            // Agregar el '%' para que busque nombres que contengan la cadena proporcionada
+            ps.setString(1, "%" + nombre + "%");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Producto obj = new Producto();
+                obj.setIdProd(rs.getInt("id_producto"));
+                obj.setNombre(rs.getString("nombre"));
+                obj.setPrecio(rs.getDouble("precio"));
+                obj.setImagen(rs.getString("imagen"));
+                obj.setDescripcion(rs.getString("descripcion"));
+                obj.setIdCategoria(rs.getInt("id_categoria"));
+                lista.add(obj);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return lista;
+    }
+
 }

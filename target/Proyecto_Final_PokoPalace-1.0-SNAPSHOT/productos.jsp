@@ -53,6 +53,25 @@
                 <a href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
             </nav>
 
+
+            <section>
+                <!-- Formulario de búsqueda -->
+                <form action="Carrito_Controlador" method="get">
+                    <input type="hidden" name="accion" value="buscar">
+                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
+                    <button type="submit">Buscar</button>
+                </form>
+
+                <!-- Mostrar los resultados de la búsqueda -->
+                <c:forEach items="${productos}" var="item">
+                    <div class="cards-products">
+                        <!-- Resto del código para mostrar cada producto -->
+                    </div>
+                </c:forEach>
+            </section>
+
+
+
             <li class="nav-item dropdown">
                 <a
                     class="nav-link dropdown-toggle"
@@ -75,7 +94,6 @@
                            ><i class="fas fa-user-plus"></i> Registrarse</a
                         >
                     </li>
-
                 </ul>
             </li>
         </header>
