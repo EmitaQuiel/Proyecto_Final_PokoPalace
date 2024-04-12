@@ -951,6 +951,7 @@ header a:hover {
     width: 100%;
     height: 800px;
     background-color: #211799;
+    
 }
 
 .cards-products {
@@ -959,14 +960,25 @@ header a:hover {
     justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
     align-items: stretch;
     overflow-x: auto; 
+    
 }
 
 .container-products-principal {
-    display: grid;
-    font-family: "Lato", sans-serif, sans-serif;
+    position: relative;
+    margin: 30px;
+    font-family: "Lato", sans-serif;
     text-transform: uppercase;
+    display: flex; /* Cambiar a flex para alinear los productos horizontalmente */
+    flex-wrap: wrap; /* Permite que los productos se envuelvan a la siguiente línea si no hay suficiente espacio */
+    justify-content: space-between;  
 }
-
+.container-products {
+    width: calc(33.33% - 20px); /* Ancho del contenedor de cada producto, ajusta según sea necesario */
+    margin-bottom: 20px; /* Espacio entre las filas de productos */
+}
+.container-products:not(:nth-child(3n)) {
+    margin-right: 40px;
+}
 .container-products {
     position: relative;
     margin: auto;
@@ -979,7 +991,14 @@ header a:hover {
     flex: 0 0 auto; /* Evita que las tarjetas se estiren para llenar el contenedor */
     margin-right: 10px; 
 }
-
+.product-card {
+    position: absolute;
+    height: 100%;
+    top: 10%;
+    left: 60%;
+    width: 48%; /* Ajustamos el ancho para que dos tarjetas puedan caber en una fila */
+    margin-bottom: 20px;
+}
 .product-card p {
     font-size: 0.6em;
     color: #000000;
@@ -987,7 +1006,7 @@ header a:hover {
 }
 
 .product-card h1 {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: #4e4e4e;
     margin-top: -5px;
 }
@@ -998,18 +1017,8 @@ header a:hover {
 }
 
 .imagen-producto {
-    width: 290px;
-    margin-top: 47px;
-}
-
-.product-card {
-    position: absolute;
-    
-    height: 100%;
-    top: 10%;
-    left: 60%;
-    width: 48%; /* Ajustamos el ancho para que dos tarjetas puedan caber en una fila */
-    margin-bottom: 20px;
+    width: 200px;
+    margin: 50px;
 }
 
 .desc {

@@ -235,23 +235,26 @@
                 <section>
                     <div class="dropdown categorias">
                         <form action="Carrito_Controlador" method="post">
-                            <input type="radio" name="categoria" value="Peluche"> Peluche
-                            <input type="radio" name="categoria" value="Videojuego"> Videojuego
-                            <input type="radio" name="categoria" value="TCG"> TCG
-                            <input type="radio" name="categoria" value="Figuras"> Figuras
-                            <input type="radio" name="categoria" value="Consolas"> Consolas
+                            <select name="categoria">
+                                <option value="Peluche">Peluche</option>
+                                <option value="Videojuego">Videojuego</option>
+                                <option value="TCG">TCG</option>
+                                <option value="Figuras">Figuras</option>
+                                <option value="Consolas">Consolas</option>
+                            </select>
                             <input type="hidden" name="accion" value="filtrar">
                             <input type="submit" value="Filtrar">
                         </form>
 
                     </div>
                 </section>
-                <section>
-                    <c:forEach items="${productos}" var="item">
-                        <form action="Carrito_Controlador" method="get">
-                            <div class="cards-products">
-                                <div class="container-products-principal">
-                                    <div class="container-products">
+
+                <section class="app">
+                    <div class="cards-products">
+                        <div class="container-products-principal">
+                            <c:forEach items="${productos}" var="item" varStatus="loop">
+                                <div class="container-products">
+                                    <form action="Carrito_Controlador" method="get">
                                         <div class="images">
                                             <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
                                         </div>
@@ -264,15 +267,19 @@
                                                 <input type="hidden" name="accion" value="agregar">
                                                 <input type="hidden" name="id" value="${item.idProd}">
                                                 <button type="button" class="add" onclick="agregarAlCarrito(${item.idProd})">Agregar a Carrito</button>
-
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </div>
-                        </form>
-                    </c:forEach>
+                                <!-- Insertar un salto de línea después de cada tercer producto -->
+                                <c:if test="${loop.index % 3 == 2}">
+                                    <div style="flex-basis: 100%; height: 0;"></div>
+                                </c:if>
+                            </c:forEach>
+                        </div>
+                    </div>
                 </section>
+
                 <c:if test="${totalPaginas > 1}">
                     <div class="pagination">
                         <c:if test="${paginaActual > 1}">
