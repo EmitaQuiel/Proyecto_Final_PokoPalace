@@ -1,11 +1,16 @@
 package Controlador;
 
+import Modelo.Cliente;
 import Modelo.Producto;
 import Modelo.detallePedido;
+import Modelo_DAO.Cliente_DAO;
 import Modelo_DAO.Producto_DAO;
+import config.Fecha;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +53,12 @@ public class Carrito_Controlador extends HttpServlet {
                 break;
             case "disminuir":
                 Disminuir(request, response);
+                break;
+            case "generarCompra":
+                GenerarCompra(request, response);
+                break;
+            case "guardarCliente":
+                guardarCliente(request, response);
                 break;
 
             default:
@@ -142,6 +153,47 @@ public class Carrito_Controlador extends HttpServlet {
         }
         objCarrito.guardarSesion(request, lista);
         response.sendRedirect("Carrito_Controlador?accion=listar");
+    }
+
+    protected void GenerarCompra(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
+        double total = objCarrito.importeTotal(carrito);
+        request.setAttribute("carrito", carrito);
+        request.setAttribute("total", total);
+        request.getRequestDispatcher("informacion_compra.jsp").forward(request, response);
+    }
+
+    protected void guardarCliente(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String cedula = request.getParameter("cedula");
+        String nombres = request.getParameter("nombres");
+        String apellidos = request.getParameter("apellidos");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        String provincia = request.getParameter("provincia");
+        String canton = request.getParameter("canton");
+        String distrito = request.getParameter("distrito");
+        String direccion = request.getParameter("direccion");
+
+        
+        Cliente cliente = new Cliente();
+        cliente.setCedula(cedula);
+        cliente.setNombre(nombres);
+        cliente.setApellidos(apellidos);
+        cliente.setEmail(email);
+        cliente.setTelefono(telefono);
+        cliente.setProvincia(provincia);
+        cliente.setCanton(canton);
+        cliente.setDistrito(distrito);
+        cliente.setDireccion(direccion);
+
+        
+        Cliente_DAO clienteDAO = new Cliente_DAO();
+        clienteDAO.insertarCliente(cliente);
+
+        
+        response.sendRedirect("mensaje.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

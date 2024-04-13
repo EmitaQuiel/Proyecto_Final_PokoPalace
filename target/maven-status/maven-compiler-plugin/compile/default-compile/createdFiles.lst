@@ -1,8 +1,10 @@
 util\carrito.class
-Modelo\Pago.class
+Modelo\Cliente.class
 config\test.class
 Controlador\Carrito_Controlador.class
+Modelo_DAO\Cliente_DAO.class
 Modelo\Producto.class
 config\Conexion.class
+config\Fecha.class
 Modelo_DAO\Producto_DAO.class
 app\AppInitializer.class

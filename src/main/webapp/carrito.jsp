@@ -1,8 +1,4 @@
-<%-- 
-    Document   : carrito
-    Created on : 9 abr 2024, 16:20:20
-    Author     : Emi
---%>
+
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -39,7 +35,6 @@
         </header>
 
         <main>
-
             <section class="container-products-carrito">
                 <div class="row">
                     <div class="col-sm-9">
@@ -118,12 +113,14 @@
                                         <p class="mb-2">₡ ${total}</p>
 
                                     </div>
-                                    <button class="btn btn-warning btn-block btn-lg">
-                                        <div class="d-flex justify-content-between">
-                                            <span><i class="fa fa-credit-card"></i>PROCESAR</span>
-                                        </div>
-                                    </button>
-
+                                    <form action="informacion_compra.jsp" method="post">
+                                        <!-- Agregar los campos y el contenido necesario aquí -->
+                                        <button type="submit" name="accion" value="generarCompra" class="btn btn-warning btn-block btn-lg">
+                                            <div class="d-flex justify-content-between">
+                                                <span><i class="fa fa-credit-card"></i>PROCESAR</span>
+                                            </div>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +128,9 @@
                 </div>
             </section>
         </main>
+
+
+
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"

@@ -1,6 +1,8 @@
 package Modelo;
 
-public class detallePedido {
+import java.io.Serializable;
+
+public class detallePedido implements Serializable{
 
     private Producto producto;
     private int cantidad;

@@ -54,33 +54,7 @@
 
                 </nav>
 
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        >
-                        Iniciar Sesion
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="#" class="btn btn-dark"
-                               ><i class="fas fa-user-lock"></i> Login</a
-                            >
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a class="dropdown-item" href="#" class="btn btn-dark"
-                               ><i class="fas fa-user-plus"></i> Registrarse</a
-                            >
-                        </li>
-                    </ul>
-                </li>
-
-
-
+                
                 <section>
                     <!-- Formulario de búsqueda -->
                     <form action="Carrito_Controlador" method="get">
@@ -101,207 +75,80 @@
         </header>
 
         <main>
-            <section>
-                <div class="contenedor-productos">
-                    <div class="slider-pokemon">
-                        <div
-                            class="contenedor_flexible flex--pikachu Flex_activo"
-                            data-slide="1"
-                            >
-                            <div class="Flex_objeto Flex_objeto--left">
-                                <div class="Flex_contenido">
-                                    <p class="text--sub">Pokemon Gen I</p>
-                                    <h1 class="text--big">Pikachu</h1>
-                                    <p class="text--normal">
-                                        Pikachu is an Electric-type Pokémon introduced in Generation
-                                        I. Pikachu are small, chubby, and incredibly cute mouse-like
-                                        Pokémon. They are almost completely covered by yellow fur.
-                                    </p>
-                                </div>
-                                <p class="text__background">Pikachu</p>
-                            </div>
-                            <div class="Flex_objeto Flex_objeto--right"></div>
-                            <img
-                                class="pokemon__img"
-                                src="../assets/img/Charizard_SSBU.webp"
-                                />
-                        </div>
-                        <div
-                            class="contenedor_flexible flex--piplup animate--start"
-                            data-slide="2"
-                            >
-                            <div class="Flex_objeto Flex_objeto--left">
-                                <div class="Flex_contenido">
-                                    <p class="text--sub">Pokemon Gen IV</p>
-                                    <h1 class="text--big">Piplup</h1>
-                                    <p class="text--normal">
-                                        Piplup is the Water-type Starter Pokémon of the Sinnoh
-                                        region. It was introduced in Generation IV. Piplup has a
-                                        strong sense of self-esteem. It seldom accepts food that
-                                        people give because of its pride.
-                                    </p>
-                                </div>
-                                <p class="text__background">Piplup</p>
-                            </div>
-                            <div class="Flex_objeto Flex_objeto--right"></div>
-                            <img
-                                class="pokemon__img"
-                                src="https://s4.postimg.org/sa9dl4825/pilup.png"
-                                />
-                        </div>
-                        <div
-                            class="contenedor_flexible flex--blaziken animate--start"
-                            data-slide="3"
-                            >
-                            <div class="Flex_objeto Flex_objeto--left">
-                                <div class="Flex_contenido">
-                                    <p class="text--sub">Pokemon Gen III</p>
-                                    <h1 class="text--big">Blaziken</h1>
-                                    <p class="text--normal">
-                                        Blaziken is the Fire/Fighting-type Starter Pokémon of the
-                                        Hoenn region, introduced in Generation III. Blaziken is a
-                                        large, bipedal, humanoid bird-like Pokémon that resembles a
-                                        rooster.
-                                    </p>
-                                </div>
-                                <p class="text__background">Blaziken</p>
-                            </div>
-                            <div class="Flex_objeto Flex_objeto--right"></div>
-                            <img
-                                class="pokemon__img"
-                                src="https://s4.postimg.org/6795hnlql/blaziken.png"
-                                />
-                        </div>
-                        <div
-                            class="contenedor_flexible flex--dialga animate--start"
-                            data-slide="4"
-                            >
-                            <div class="Flex_objeto Flex_objeto--left">
-                                <div class="Flex_contenido">
-                                    <p class="text--sub">Pokemon Gen IV</p>
-                                    <h1 class="text--big">Dialga</h1>
-                                    <p class="text--normal">
-                                        Dialga is a Steel/Dragon-type Legendary Pokémon. Dialga is a
-                                        sauropod-like Pokémon. It is mainly blue with some gray,
-                                        metallic portions, such as its chest plate, which has a
-                                        diamond in the center. It also has various, light blue lines
-                                        all over its body.
-                                    </p>
-                                </div>
-                                <p class="text__background">Dialga</p>
-                            </div>
-                            <div class="Flex_objeto Flex_objeto--right"></div>
-                            <img
-                                class="pokemon__img"
-                                src="https://s4.postimg.org/43yq9zlxp/dialga.png"
-                                />
-                        </div>
-                        <div
-                            class="contenedor_flexible flex--zekrom animate--start"
-                            data-slide="5"
-                            >
-                            <div class="Flex_objeto Flex_objeto--left">
-                                <div class="Flex_contenido">
-                                    <p class="text--sub">Pokemon Gen V</p>
-                                    <h1 class="text--big">Zekrom</h1>
-                                    <p class="text--normal">
-                                        Zekrom is a Dragon/Electric-type Legendary Pokémon. It is
-                                        part of the Tao Trio, along with Reshiram and Kyurem. Zekrom
-                                        is a large, black draconian Pokémon that seems to share its
-                                        theme with its counterpart, Reshiram. It has piercing red
-                                        eyes and dark gray to black skin that seems to be
-                                        armor-like.
-                                    </p>
-                                </div>
-                                <p class="text__background">Zekrom</p>
-                            </div>
-                            <div class="Flex_objeto Flex_objeto--right"></div>
-                            <img
-                                class="pokemon__img"
-                                src="https://s4.postimg.org/malmhgn9p/zekrom.png"
-                                />
-                        </div>
-                    </div>
 
-                    <div class="slider__navi">
-                        <a href="#" class="slide-nav active" data-slide="1">pikachu</a>
-                        <a href="#" class="slide-nav" data-slide="2">piplup</a>
-                        <a href="#" class="slide-nav" data-slide="3">blaziken</a>
-                        <a href="#" class="slide-nav" data-slide="4">dialga</a>
-                        <a href="#" class="slide-nav" data-slide="5">zekrom</a>
+
+
+            <section class="dropdown-categorias-menu">
+                <div class="dropdown categorias">
+                    <form action="Carrito_Controlador" method="post">
+                        <select name="categoria">
+                            <option value="">Todos los productos</option> <!-- Esta opción representa seleccionar todos los productos -->
+                            <option value="Peluche">Peluche</option>
+                            <option value="Videojuego">Videojuego</option>
+                            <option value="TCG">TCG</option>
+                            <option value="Figuras">Figuras</option>
+                            <option value="Consolas">Consolas</option>
+                        </select>
+                        <input type="hidden" name="accion" value="filtrar">
+                        <input type="submit" value="Filtrar">
+                    </form>
+                </div>
+            </section>
+
+
+            <section class="contenedor-productos">
+                <div class="cards-products">
+                    <div class="container-products-principal">
+                        <c:forEach items="${productos}" var="item" varStatus="loop">
+                            <div class="container-products">
+                                <form action="Carrito_Controlador" method="get">
+                                    <div class="images">
+                                        <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
+                                    </div>
+                                    <div class="product-card">
+                                        <p>${item.nombreCategoria}</p>
+                                        <h1>${item.nombre}</h1>
+                                        <h2>₡${item.precio}</h2>
+                                        <p class="desc">${item.descripcion}</p>
+                                        <div class="buttons-product">
+                                            <input type="hidden" name="accion" value="agregar">
+                                            <input type="hidden" name="id" value="${item.idProd}">
+                                            <button type="button" class="add" onclick="agregarAlCarrito(${item.idProd})">Agregar a Carrito</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Insertar un salto de línea después de cada tercer producto -->
+                            <c:if test="${loop.index % 3 == 2}">
+                                <div style="flex-basis: 100%; height: 0;"></div>
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
+            </section>
 
-                <section>
-                    <div class="dropdown categorias">
-                        <form action="Carrito_Controlador" method="post">
-                            <select name="categoria">
-                                <option value="Peluche">Peluche</option>
-                                <option value="Videojuego">Videojuego</option>
-                                <option value="TCG">TCG</option>
-                                <option value="Figuras">Figuras</option>
-                                <option value="Consolas">Consolas</option>
-                            </select>
-                            <input type="hidden" name="accion" value="filtrar">
-                            <input type="submit" value="Filtrar">
-                        </form>
-
-                    </div>
-                </section>
-
-                <section class="app">
-                    <div class="cards-products">
-                        <div class="container-products-principal">
-                            <c:forEach items="${productos}" var="item" varStatus="loop">
-                                <div class="container-products">
-                                    <form action="Carrito_Controlador" method="get">
-                                        <div class="images">
-                                            <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
-                                        </div>
-                                        <div class="product-card">
-                                            <p>${item.nombreCategoria}</p>
-                                            <h1>${item.nombre}</h1>
-                                            <h2>₡${item.precio}</h2>
-                                            <p class="desc">${item.descripcion}</p>
-                                            <div class="buttons-product">
-                                                <input type="hidden" name="accion" value="agregar">
-                                                <input type="hidden" name="id" value="${item.idProd}">
-                                                <button type="button" class="add" onclick="agregarAlCarrito(${item.idProd})">Agregar a Carrito</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <!-- Insertar un salto de línea después de cada tercer producto -->
-                                <c:if test="${loop.index % 3 == 2}">
-                                    <div style="flex-basis: 100%; height: 0;"></div>
-                                </c:if>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </section>
-
-                <c:if test="${totalPaginas > 1}">
-                    <div class="pagination">
-                        <c:if test="${paginaActual > 1}">
-                            <a href="Carrito_Controlador?accion=listar&pagina=1">&laquo; Primera</a>
-                            <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual - 1}">&lt; Anterior</a>
-                        </c:if>
-                        <c:forEach begin="1" end="${totalPaginas}" var="i">
-                            <c:choose>
-                                <c:when test="${i == paginaActual}">
-                                    <span class="current">${i}</span>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="Carrito_Controlador?accion=listar&pagina=${i}">${i}</a>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:if test="${paginaActual < totalPaginas}">
-                            <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual + 1}">Siguiente &gt;</a>
-                            <a href="Carrito_Controlador?accion=listar&pagina=${totalPaginas}">Última &raquo;</a>
-                        </c:if>
-                    </div>
-                </c:if>
+            <c:if test="${totalPaginas > 1}">
+                <div class="pagination">
+                    <c:if test="${paginaActual > 1}">
+                        <a href="Carrito_Controlador?accion=listar&pagina=1">&laquo; Primera</a>
+                        <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual - 1}">&lt; Anterior</a>
+                    </c:if>
+                    <c:forEach begin="1" end="${totalPaginas}" var="i">
+                        <c:choose>
+                            <c:when test="${i == paginaActual}">
+                                <span class="current">${i}</span>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="Carrito_Controlador?accion=listar&pagina=${i}">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                    <c:if test="${paginaActual < totalPaginas}">
+                        <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual + 1}">Siguiente &gt;</a>
+                        <a href="Carrito_Controlador?accion=listar&pagina=${totalPaginas}">Última &raquo;</a>
+                    </c:if>
+                </div>
+            </c:if>
         </main>
 
         <script>
@@ -321,11 +168,18 @@
                 xhttp.open("GET", "Carrito_Controlador?accion=agregar&id=" + idProducto, true);
                 xhttp.send();
             }
+
+            function mostrarLogin() {
+                // Aquí puedes mostrar un formulario de inicio de sesión
+                console.log("Mostrando formulario de inicio de sesión...");
+            }
+
+            function mostrarRegistro() {
+                // Aquí puedes mostrar un formulario de registro
+                console.log("Mostrando formulario de registro...");
+            }
+
         </script>
-
-
-
-
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="./js/funcionalidades_index.js"></script>
