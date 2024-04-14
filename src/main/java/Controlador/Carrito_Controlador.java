@@ -8,6 +8,7 @@ import Modelo_DAO.Cliente_DAO;
 import Modelo_DAO.DetallePedido_DAO;
 import Modelo_DAO.Producto_DAO;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -166,10 +167,9 @@ public class Carrito_Controlador extends HttpServlet {
 
         
         if (metodoPago == null || metodoPago.isEmpty()) {
-            
             request.setAttribute("mensajeError", "Debe seleccionar un método de pago.");
             request.getRequestDispatcher("informacion.jsp").forward(request, response);
-            return; 
+            return;
         }
 
         
@@ -184,10 +184,9 @@ public class Carrito_Controlador extends HttpServlet {
                     || nombreTarjeta == null || nombreTarjeta.isEmpty()
                     || fechaVencimiento == null || fechaVencimiento.isEmpty()
                     || cvv == null || cvv.isEmpty()) {
-                
                 request.setAttribute("mensajeError", "Por favor complete todos los campos de la tarjeta.");
                 request.getRequestDispatcher("informacion.jsp").forward(request, response);
-                return; 
+                return;
             }
         }
 
@@ -195,15 +194,31 @@ public class Carrito_Controlador extends HttpServlet {
         if (cedula.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty()
                 || telefono.isEmpty() || provincia.isEmpty() || canton.isEmpty() || distrito.isEmpty()
                 || direccion.isEmpty()) {
-            
             request.setAttribute("mensajeError", "Por favor complete todos los campos del cliente.");
             request.getRequestDispatcher("informacion.jsp").forward(request, response);
-            return; 
+            return;
+        }
+
+        
+        ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
+
+        
+        if (carrito.isEmpty()) {
+            request.setAttribute("mensajeError", "El carrito de la compra está vacío.");
+            request.getRequestDispatcher("informacion.jsp").forward(request, response);
+            return;
+        }
+        Producto_DAO objProductoDAO = new Producto_DAO();
+        
+        for (detallePedido item : carrito) {
+            objProductoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
         }
 
         objCarrito.vaciarCarrito(request);
 
         response.sendRedirect("mensaje.jsp");
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

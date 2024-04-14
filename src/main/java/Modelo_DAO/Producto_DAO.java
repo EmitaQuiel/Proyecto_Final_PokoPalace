@@ -252,5 +252,51 @@ public class Producto_DAO {
 
         return idCompraGenerado;
     }
+    
+    
 
+    // Otros métodos de tu clase Producto_DAO
+
+    // Método para disminuir el stock del producto en la base de datos
+    public void disminuirStockProducto(int idProducto, int cantidadVendida) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = Conexion.getConnection();
+            
+            String sql = "UPDATE productos SET stock = stock - ? WHERE id_producto = ?";
+            
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, cantidadVendida);
+            stmt.setInt(2, idProducto);
+            
+            int filasActualizadas = stmt.executeUpdate();
+            
+            if (filasActualizadas == 0) {
+                System.out.println("No se pudo actualizar el stock del producto con id: " + idProducto);
+            } else {
+                System.out.println("Stock del producto con id " + idProducto + " actualizado correctamente.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar el stock del producto: " + e.getMessage());
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    System.out.println("Error al cerrar el statement: " + e.getMessage());
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
+                }
+            }
+        }
+    }
 }
+
+
