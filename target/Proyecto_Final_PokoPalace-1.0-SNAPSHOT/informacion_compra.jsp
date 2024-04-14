@@ -1,4 +1,3 @@
-
 <%@page import="Modelo.detallePedido"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -65,8 +64,46 @@
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" maxlength="255" required><br><br>
 
-            <input type="submit" name="accion" value="guardarCliente">
+            
+            <input type="radio" id="pago-tarjeta" name="metodo-pago" value="tarjeta">
+            <label for="pago-tarjeta">Pagar con tarjeta</label><br>
+            <input type="radio" id="pago-tienda" name="metodo-pago" value="tienda">
+            <label for="pago-tienda">Pagar en tienda</label><br><br>
+
+            
+            <div id="detalles-tarjeta" style="display: none;">
+                <label for="numero-tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero-tarjeta" name="numero-tarjeta"><br><br>
+
+                <label for="nombre-tarjeta">Nombre en la Tarjeta:</label>
+                <input type="text" id="nombre-tarjeta" name="nombre-tarjeta"><br><br>
+
+                <label for="fecha-vencimiento">Fecha de Vencimiento:</label>
+                <input type="text" id="fecha-vencimiento" name="fecha-vencimiento" placeholder="MM/AA"><br><br>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv"><br><br>
+            </div>
+
+            <input type="hidden" name="accion" value="guardarCliente">
+            <input type="submit" value="Generar Compra">
         </form>
+
+        
+        <script>
+            const pagoTarjeta = document.getElementById('pago-tarjeta');
+            const detallesTarjeta = document.getElementById('detalles-tarjeta');
+
+            pagoTarjeta.addEventListener('change', function () {
+                if (pagoTarjeta.checked) {
+                    detallesTarjeta.style.display = 'block';
+                } else {
+                    detallesTarjeta.style.display = 'none';
+                }
+            });
+        </script>
+
     </body>
 </html>
+
 

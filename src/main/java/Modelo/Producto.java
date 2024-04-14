@@ -9,6 +9,8 @@ public class Producto {
     private String descripcion;
     private int idCategoria;
     private String nombreCategoria;
+    private int stock; 
+    
     
     public int getIdProd() {
         return idProd;
@@ -56,6 +58,14 @@ public class Producto {
 
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getNombreCategoria() {

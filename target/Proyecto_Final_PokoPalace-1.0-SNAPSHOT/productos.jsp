@@ -1,10 +1,3 @@
-<%-- 
-    Document   : productos
-    Created on : 7 abr 2024, 16:32:52
-    Author     : Emi
---%>
-
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -28,7 +21,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
             />
-        <!-- Pokemon Slider Styles -->
+        
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -56,17 +49,17 @@
 
                 
                 <section>
-                    <!-- Formulario de búsqueda -->
+                    
                     <form action="Carrito_Controlador" method="get">
                         <input type="hidden" name="accion" value="buscar">
                         <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
                         <button type="submit">Buscar</button>
                     </form>
 
-                    <!-- Mostrar los resultados de la búsqueda -->
+                    
                     <c:forEach items="${productos}" var="item">
                         <div class="cards-products">
-                            <!-- Resto del código para mostrar cada producto -->
+                            
                         </div>
                     </c:forEach>
                 </section>
@@ -82,7 +75,7 @@
                 <div class="dropdown categorias">
                     <form action="Carrito_Controlador" method="post">
                         <select name="categoria">
-                            <option value="">Todos los productos</option> <!-- Esta opción representa seleccionar todos los productos -->
+                            <option value="">Todos los productos</option> 
                             <option value="Peluche">Peluche</option>
                             <option value="Videojuego">Videojuego</option>
                             <option value="TCG">TCG</option>
@@ -110,6 +103,8 @@
                                         <h1>${item.nombre}</h1>
                                         <h2>₡${item.precio}</h2>
                                         <p class="desc">${item.descripcion}</p>
+                                        <p>Stock: ${item.stock}</p>
+
                                         <div class="buttons-product">
                                             <input type="hidden" name="accion" value="agregar">
                                             <input type="hidden" name="id" value="${item.idProd}">
@@ -118,7 +113,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <!-- Insertar un salto de línea después de cada tercer producto -->
+                            
                             <c:if test="${loop.index % 3 == 2}">
                                 <div style="flex-basis: 100%; height: 0;"></div>
                             </c:if>
@@ -127,28 +122,7 @@
                 </div>
             </section>
 
-            <c:if test="${totalPaginas > 1}">
-                <div class="pagination">
-                    <c:if test="${paginaActual > 1}">
-                        <a href="Carrito_Controlador?accion=listar&pagina=1">&laquo; Primera</a>
-                        <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual - 1}">&lt; Anterior</a>
-                    </c:if>
-                    <c:forEach begin="1" end="${totalPaginas}" var="i">
-                        <c:choose>
-                            <c:when test="${i == paginaActual}">
-                                <span class="current">${i}</span>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="Carrito_Controlador?accion=listar&pagina=${i}">${i}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                    <c:if test="${paginaActual < totalPaginas}">
-                        <a href="Carrito_Controlador?accion=listar&pagina=${paginaActual + 1}">Siguiente &gt;</a>
-                        <a href="Carrito_Controlador?accion=listar&pagina=${totalPaginas}">Última &raquo;</a>
-                    </c:if>
-                </div>
-            </c:if>
+            
         </main>
 
         <script>
@@ -156,29 +130,20 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        // Manejar la respuesta del servlet aquí
+                        
                         alert("Producto agregado al carrito");
 
-                        // Actualizar el número de elementos en el carrito en el enlace
+                        
                         var cartLink = document.getElementById("cartLink");
-                        var cartItemCount = parseInt(cartLink.querySelector(".fw-bold").innerText); // Obtener el número actual de elementos en el carrito
-                        cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1; // Incrementar el número de elementos en 1
+                        var cartItemCount = parseInt(cartLink.querySelector(".fw-bold").innerText);
+                        cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1; 
                     }
                 };
                 xhttp.open("GET", "Carrito_Controlador?accion=agregar&id=" + idProducto, true);
                 xhttp.send();
             }
 
-            function mostrarLogin() {
-                // Aquí puedes mostrar un formulario de inicio de sesión
-                console.log("Mostrando formulario de inicio de sesión...");
-            }
-
-            function mostrarRegistro() {
-                // Aquí puedes mostrar un formulario de registro
-                console.log("Mostrando formulario de registro...");
-            }
-
+            
         </script>
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>

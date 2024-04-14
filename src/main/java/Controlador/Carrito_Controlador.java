@@ -1,20 +1,19 @@
 package Controlador;
 
 import Modelo.Cliente;
+import Modelo.InformacionCompra;
 import Modelo.Producto;
 import Modelo.detallePedido;
 import Modelo_DAO.Cliente_DAO;
+import Modelo_DAO.DetallePedido_DAO;
 import Modelo_DAO.Producto_DAO;
-import config.Fecha;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import util.carrito;
 
 public class Carrito_Controlador extends HttpServlet {
@@ -53,9 +52,6 @@ public class Carrito_Controlador extends HttpServlet {
                 break;
             case "disminuir":
                 Disminuir(request, response);
-                break;
-            case "generarCompra":
-                GenerarCompra(request, response);
                 break;
             case "guardarCliente":
                 guardarCliente(request, response);
@@ -137,7 +133,7 @@ public class Carrito_Controlador extends HttpServlet {
         int indice = Integer.parseInt(request.getParameter("indice"));
         ArrayList<detallePedido> lista = objCarrito.obtenerSesion(request);
         detallePedido item = lista.get(indice);
-        item.aumentarCantidad(1); // Aumentar en 1 la cantidad
+        item.aumentarCantidad(1);
         objCarrito.guardarSesion(request, lista);
         response.sendRedirect("Carrito_Controlador?accion=listar");
     }
@@ -149,19 +145,10 @@ public class Carrito_Controlador extends HttpServlet {
         detallePedido item = lista.get(indice);
         int cantidad = item.getCantidad();
         if (cantidad > 1) {
-            item.setCantidad(cantidad - 1); // Disminuir en 1 la cantidad
+            item.setCantidad(cantidad - 1);
         }
         objCarrito.guardarSesion(request, lista);
         response.sendRedirect("Carrito_Controlador?accion=listar");
-    }
-
-    protected void GenerarCompra(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
-        double total = objCarrito.importeTotal(carrito);
-        request.setAttribute("carrito", carrito);
-        request.setAttribute("total", total);
-        request.getRequestDispatcher("informacion_compra.jsp").forward(request, response);
     }
 
     protected void guardarCliente(HttpServletRequest request, HttpServletResponse response)
@@ -175,24 +162,47 @@ public class Carrito_Controlador extends HttpServlet {
         String canton = request.getParameter("canton");
         String distrito = request.getParameter("distrito");
         String direccion = request.getParameter("direccion");
+        String metodoPago = request.getParameter("metodo-pago");
 
         
-        Cliente cliente = new Cliente();
-        cliente.setCedula(cedula);
-        cliente.setNombre(nombres);
-        cliente.setApellidos(apellidos);
-        cliente.setEmail(email);
-        cliente.setTelefono(telefono);
-        cliente.setProvincia(provincia);
-        cliente.setCanton(canton);
-        cliente.setDistrito(distrito);
-        cliente.setDireccion(direccion);
+        if (metodoPago == null || metodoPago.isEmpty()) {
+            
+            request.setAttribute("mensajeError", "Debe seleccionar un método de pago.");
+            request.getRequestDispatcher("informacion.jsp").forward(request, response);
+            return; 
+        }
 
         
-        Cliente_DAO clienteDAO = new Cliente_DAO();
-        clienteDAO.insertarCliente(cliente);
+        if (metodoPago.equals("tarjeta")) {
+            String numeroTarjeta = request.getParameter("numero-tarjeta");
+            String nombreTarjeta = request.getParameter("nombre-tarjeta");
+            String fechaVencimiento = request.getParameter("fecha-vencimiento");
+            String cvv = request.getParameter("cvv");
+
+            
+            if (numeroTarjeta == null || numeroTarjeta.isEmpty()
+                    || nombreTarjeta == null || nombreTarjeta.isEmpty()
+                    || fechaVencimiento == null || fechaVencimiento.isEmpty()
+                    || cvv == null || cvv.isEmpty()) {
+                
+                request.setAttribute("mensajeError", "Por favor complete todos los campos de la tarjeta.");
+                request.getRequestDispatcher("informacion.jsp").forward(request, response);
+                return; 
+            }
+        }
 
         
+        if (cedula.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty()
+                || telefono.isEmpty() || provincia.isEmpty() || canton.isEmpty() || distrito.isEmpty()
+                || direccion.isEmpty()) {
+            
+            request.setAttribute("mensajeError", "Por favor complete todos los campos del cliente.");
+            request.getRequestDispatcher("informacion.jsp").forward(request, response);
+            return; 
+        }
+
+        objCarrito.vaciarCarrito(request);
+
         response.sendRedirect("mensaje.jsp");
     }
 
@@ -234,5 +244,4 @@ public class Carrito_Controlador extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

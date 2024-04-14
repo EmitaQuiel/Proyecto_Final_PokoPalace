@@ -1,9 +1,3 @@
-<%-- 
-    Document   : mensaje
-    Created on : 12 abr 2024, 00:07:58
-    Author     : Emi
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

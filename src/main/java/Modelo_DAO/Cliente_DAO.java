@@ -1,34 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo_DAO;
 
 import Modelo.Cliente;
+import Modelo.InformacionCompra;
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
-/**
- *
- * @author Emi
- */
 public class Cliente_DAO {
 
     private Connection cn = null;
     private PreparedStatement ps = null;
 
-    // Método para insertar un nuevo cliente en la base de datos
+    
     public void insertarCliente(Cliente cliente) {
+        Connection cn = null;
+        PreparedStatement ps = null;
+
         try {
-            // Obtener la conexión a la base de datos
             cn = Conexion.getConnection();
-
-            // Definir la sentencia SQL para la inserción
             String sql = "INSERT INTO clientes (cedula, nombres, apellidos, email, telefono, provincia, canton, distrito, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            // Preparar la sentencia SQL con los valores del cliente
             ps = cn.prepareStatement(sql);
             ps.setString(1, cliente.getCedula());
             ps.setString(2, cliente.getNombre());
@@ -40,14 +34,77 @@ public class Cliente_DAO {
             ps.setString(8, cliente.getDistrito());
             ps.setString(9, cliente.getDireccion());
 
-            // Ejecutar la sentencia SQL
             ps.executeUpdate();
         } catch (SQLException ex) {
-            // Manejar cualquier excepción de SQL que pueda ocurrir
             ex.printStackTrace();
         } finally {
-            // Cerrar la conexión y el PreparedStatement
-            
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
+
+    public int obtenerUltimoId() {
+        int idCliente = 0;
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "SELECT MAX(id_cliente) AS ultimo_id FROM clientes";
+            ps = cn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idCliente = rs.getInt("ultimo_id");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+
+        }
+
+        return idCliente;
+    }
+
+    public Cliente buscarPorCedula(String cedula) {
+        Cliente cliente = null;
+        Connection cn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "SELECT * FROM clientes WHERE cedula = ?";
+            ps = cn.prepareStatement(sql);
+            ps.setString(1, cedula);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId_Cliente(rs.getInt("id_cliente"));
+                cliente.setCedula(rs.getString("cedula"));
+                cliente.setNombre(rs.getString("nombres"));
+                cliente.setApellidos(rs.getString("apellidos"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setProvincia(rs.getString("provincia"));
+                cliente.setCanton(rs.getString("canton"));
+                cliente.setDistrito(rs.getString("distrito"));
+                cliente.setDireccion(rs.getString("direccion"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            
+        }
+
+        return cliente;
+    }
+
 }
