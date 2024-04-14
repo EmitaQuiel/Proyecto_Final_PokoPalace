@@ -37,7 +37,7 @@
         <link rel="stylesheet" href="./css/style.css"/>
     </head>
     <body>
-        <header>
+        <header style="background-color: white;">
             <div class="header-container">
                 <nav>
                     <a href="./index.jsp">Inicio</a>
@@ -61,8 +61,6 @@
         </header>
 
         <main>
-
-
 
             <section class="dropdown-categorias-menu">
                 <div class="dropdown categorias">

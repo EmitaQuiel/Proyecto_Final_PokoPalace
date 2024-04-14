@@ -163,62 +163,58 @@ public class Carrito_Controlador extends HttpServlet {
         String canton = request.getParameter("canton");
         String distrito = request.getParameter("distrito");
         String direccion = request.getParameter("direccion");
-        String metodoPago = request.getParameter("metodo-pago");
 
         
-        if (metodoPago == null || metodoPago.isEmpty()) {
-            request.setAttribute("mensajeError", "Debe seleccionar un método de pago.");
-            request.getRequestDispatcher("informacion.jsp").forward(request, response);
-            return;
-        }
+        Cliente_DAO clienteDAO = new Cliente_DAO();
+        Cliente clienteExistente = clienteDAO.buscarPorCedula(cedula);
 
-        
-        if (metodoPago.equals("tarjeta")) {
-            String numeroTarjeta = request.getParameter("numero-tarjeta");
-            String nombreTarjeta = request.getParameter("nombre-tarjeta");
-            String fechaVencimiento = request.getParameter("fecha-vencimiento");
-            String cvv = request.getParameter("cvv");
+        int idCliente;
+        if (clienteExistente != null) {
+            
+            idCliente = clienteExistente.getId_Cliente();
+        } else {
+            
+            Cliente nuevoCliente = new Cliente();
+            nuevoCliente.setCedula(cedula);
+            nuevoCliente.setNombre(nombres);
+            nuevoCliente.setApellidos(apellidos);
+            nuevoCliente.setEmail(email);
+            nuevoCliente.setTelefono(telefono);
+            nuevoCliente.setProvincia(provincia);
+            nuevoCliente.setCanton(canton);
+            nuevoCliente.setDistrito(distrito);
+            nuevoCliente.setDireccion(direccion);
 
             
-            if (numeroTarjeta == null || numeroTarjeta.isEmpty()
-                    || nombreTarjeta == null || nombreTarjeta.isEmpty()
-                    || fechaVencimiento == null || fechaVencimiento.isEmpty()
-                    || cvv == null || cvv.isEmpty()) {
-                request.setAttribute("mensajeError", "Por favor complete todos los campos de la tarjeta.");
-                request.getRequestDispatcher("informacion.jsp").forward(request, response);
-                return;
-            }
-        }
+            clienteDAO.insertarCliente(nuevoCliente);
 
-        
-        if (cedula.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty()
-                || telefono.isEmpty() || provincia.isEmpty() || canton.isEmpty() || distrito.isEmpty()
-                || direccion.isEmpty()) {
-            request.setAttribute("mensajeError", "Por favor complete todos los campos del cliente.");
-            request.getRequestDispatcher("informacion.jsp").forward(request, response);
-            return;
+           
+            idCliente = clienteDAO.obtenerUltimoId();
         }
 
         
         ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
 
         
-        if (carrito.isEmpty()) {
-            request.setAttribute("mensajeError", "El carrito de la compra está vacío.");
-            request.getRequestDispatcher("informacion.jsp").forward(request, response);
-            return;
-        }
-        Producto_DAO objProductoDAO = new Producto_DAO();
+        DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
+
         
         for (detallePedido item : carrito) {
-            objProductoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
+            InformacionCompra detallePedido = new InformacionCompra();
+            detallePedido.setIdCliente(idCliente);
+            detallePedido.setIdProducto(item.getProducto().getIdProd());
+            detallePedido.setCantidad(item.getCantidad());
+            detallePedido.setPrecioCompra(item.getProducto().getPrecio());
+
+            
+            detallePedidoDAO.insertarDetallePedido(detallePedido);
         }
 
+        
         objCarrito.vaciarCarrito(request);
 
+        
         response.sendRedirect("mensaje.jsp");
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
