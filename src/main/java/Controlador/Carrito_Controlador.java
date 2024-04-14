@@ -164,16 +164,13 @@ public class Carrito_Controlador extends HttpServlet {
         String distrito = request.getParameter("distrito");
         String direccion = request.getParameter("direccion");
 
-        
         Cliente_DAO clienteDAO = new Cliente_DAO();
         Cliente clienteExistente = clienteDAO.buscarPorCedula(cedula);
 
         int idCliente;
         if (clienteExistente != null) {
-            
             idCliente = clienteExistente.getId_Cliente();
         } else {
-            
             Cliente nuevoCliente = new Cliente();
             nuevoCliente.setCedula(cedula);
             nuevoCliente.setNombre(nombres);
@@ -185,35 +182,41 @@ public class Carrito_Controlador extends HttpServlet {
             nuevoCliente.setDistrito(distrito);
             nuevoCliente.setDireccion(direccion);
 
-            
             clienteDAO.insertarCliente(nuevoCliente);
 
-           
             idCliente = clienteDAO.obtenerUltimoId();
         }
 
-        
+        double precioTotal = 0.0;
+
         ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
 
-        
+        String metodoPago = request.getParameter("metodo-pago");
+        String estado;
+        if (metodoPago.equals("tarjeta")) {
+            estado = "cancelado";
+        } else {
+            estado = "sin cancelar";
+        }
         DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
+        Producto_DAO productoDAO = new Producto_DAO();
 
-        
         for (detallePedido item : carrito) {
             InformacionCompra detallePedido = new InformacionCompra();
             detallePedido.setIdCliente(idCliente);
             detallePedido.setIdProducto(item.getProducto().getIdProd());
             detallePedido.setCantidad(item.getCantidad());
             detallePedido.setPrecioCompra(item.getProducto().getPrecio());
-
+            detallePedido.setMetodoPago(metodoPago);
+            double precioTotalDetalle = item.getProducto().getPrecio() * item.getCantidad();
+            detallePedido.setPrecioTotal(precioTotalDetalle);
+            detallePedido.setEstadoPago(estado);
             
             detallePedidoDAO.insertarDetallePedido(detallePedido);
+            productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
         }
 
-        
         objCarrito.vaciarCarrito(request);
-
-        
         response.sendRedirect("mensaje.jsp");
     }
 

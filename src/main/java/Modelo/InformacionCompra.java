@@ -7,7 +7,10 @@ public class InformacionCompra {
     private int idProducto;
     private int cantidad;
     private double precioCompra;
-
+    private String metodoPago;
+    private double precioTotal;
+    private String estadoPago;
+    
     
     public int getIdDetalle() {
         return idDetalle;
@@ -48,6 +51,29 @@ public class InformacionCompra {
     public void setPrecioCompra(double precioCompra) {
         this.precioCompra = precioCompra;
     }
-    
-    
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public String getEstadoPago() {
+        return estadoPago;
+    }
+
+    public void setEstadoPago(String estadoPago) {
+        this.estadoPago = estadoPago;
+    }
+
 }

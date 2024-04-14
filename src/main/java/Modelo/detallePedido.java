@@ -31,4 +31,5 @@ public class detallePedido implements Serializable{
         this.cantidad = cantidad;
     }
 
+    
 }

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Producto_DAO {
 
@@ -172,7 +173,7 @@ public class Producto_DAO {
                 obj.setImagen(rs.getString("imagen"));
                 obj.setDescripcion(rs.getString("descripcion"));
                 obj.setNombreCategoria(rs.getString("nombre_categoria"));
-                obj.setStock(rs.getInt("stock")); 
+                obj.setStock(rs.getInt("stock"));
                 lista.add(obj);
             }
         } catch (Exception ex) {
@@ -196,7 +197,7 @@ public class Producto_DAO {
         return lista;
     }
 
-    public int guardarDetallesPedido(int idCliente, ArrayList<InformacionCompra> carrito) {
+    public int guardarDetallesPedido(int idCliente, String metodoPago, double precioTotal, String estadoPago, ArrayList<InformacionCompra> carrito) {
         Connection cn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -204,16 +205,20 @@ public class Producto_DAO {
 
         try {
             cn = Conexion.getConnection();
-            String sql = "INSERT INTO detalles_pedido (id_cliente, id_producto, cantidad, precioCompra) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO detalles_pedido (id_cliente, id_producto, cantidad, precioCompra, metodo_pago, precio_total, estadoPago) VALUES (?, ?, ?, ?, ?, ?, ?)";
             ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            cn.setAutoCommit(false); 
+            cn.setAutoCommit(false);
 
             for (InformacionCompra detalle : carrito) {
+                double precioTotalProducto = detalle.getPrecioCompra() * detalle.getCantidad();
                 ps.setInt(1, idCliente);
                 ps.setInt(2, detalle.getIdProducto());
                 ps.setInt(3, detalle.getCantidad());
                 ps.setDouble(4, detalle.getPrecioCompra());
+                ps.setString(5, metodoPago);
+                ps.setDouble(6, precioTotal);
+                ps.setString(7, estadoPago);
                 ps.executeUpdate();
             }
 
@@ -222,13 +227,12 @@ public class Producto_DAO {
                 idCompraGenerado = rs.getInt(1);
             }
 
-            cn.commit(); 
+            cn.commit();
         } catch (SQLException ex) {
-            
             ex.printStackTrace();
             try {
                 if (cn != null) {
-                    cn.rollback(); 
+                    cn.rollback();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -252,22 +256,22 @@ public class Producto_DAO {
 
         return idCompraGenerado;
     }
-    
+
     public void disminuirStockProducto(int idProducto, int cantidadVendida) {
         Connection conn = null;
         PreparedStatement stmt = null;
-        
+
         try {
             conn = Conexion.getConnection();
-            
+
             String sql = "UPDATE productos SET stock = stock - ? WHERE id_producto = ?";
-            
+
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, cantidadVendida);
             stmt.setInt(2, idProducto);
-            
+
             int filasActualizadas = stmt.executeUpdate();
-            
+
             if (filasActualizadas == 0) {
                 System.out.println("No se pudo actualizar el stock del producto con id: " + idProducto);
             } else {
@@ -292,6 +296,5 @@ public class Producto_DAO {
             }
         }
     }
+
 }
-
-
