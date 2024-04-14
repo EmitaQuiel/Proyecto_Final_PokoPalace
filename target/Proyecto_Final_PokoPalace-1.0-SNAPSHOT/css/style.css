@@ -24,7 +24,6 @@ header {
     left: 0;
     right: 0;
     z-index: 100;
-    
 }
 
 .header-container {
@@ -35,12 +34,13 @@ header {
     height: 50px;
     display: flex;
     align-items: center;
+    background-color: #ffffff;
 }
 
 header a {
     color: #000000;
     margin-right: 40px;
-    
+
 }
 
 header a:hover {
@@ -417,7 +417,6 @@ header a:hover {
     top: 50px;
 }
 
-
 .imagen-zipzap-2 {
     position: absolute;
     background-image: url(../assets/img/zipzap.png);
@@ -707,125 +706,189 @@ header a:hover {
     }
 }
 
-.contenedor-productos {
-    width: 100%;
-    height: 800px;
-    background-color: #87002b;
+.dropdown-categorias-menu{
     position: relative;
     top: 70px;
 }
 
-.dropdown-categorias-menu{
-   position: relative;
-    top: 70px; 
-}
 
-.cards-products {
-    display: flex;
-    flex-wrap: nowrap; /* Evita que los elementos se envuelvan en filas adicionales */
-    justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
-    align-items: stretch;
-    overflow-x: auto; 
-    
-}
-
-.container-products-principal {
-    position: relative;
-    margin: 30px;
-    font-family: "Lato", sans-serif;
-    text-transform: uppercase;
-    display: flex; /* Cambiar a flex para alinear los productos horizontalmente */
-    flex-wrap: wrap; /* Permite que los productos se envuelvan a la siguiente línea si no hay suficiente espacio */
-    justify-content: space-between;  
-}
-.container-products {
-    width: calc(33.33% - 20px); /* Ancho del contenedor de cada producto, ajusta según sea necesario */
-    margin-bottom: 20px; /* Espacio entre las filas de productos */
-}
-.container-products:not(:nth-child(3n)) {
-    margin-right: 40px;
-}
-.container-products {
-    position: relative;
-    margin: auto;
-    overflow: hidden;
-    width: 520px;
-    height: 350px;
-    background: #f5f5f5;
-    box-shadow: 5px 5px 15px rgba(186, 126, 126, 0.5);
-    border-radius: 10px;
-    flex: 0 0 auto; /* Evita que las tarjetas se estiren para llenar el contenedor */
-    margin-right: 10px; 
-}
-.product-card {
-    position: absolute;
-    height: 100%;
-    top: 10%;
-    left: 60%;
-    width: 48%; /* Ajustamos el ancho para que dos tarjetas puedan caber en una fila */
-    margin-bottom: 20px;
-}
-.product-card p {
-    font-size: 0.6em;
-    color: #000000;
-    letter-spacing: 1px;
-}
-
-.product-card h1 {
-    font-size: 1.3em;
-    color: #4e4e4e;
-    margin-top: -5px;
-}
-
-.product-card h2 {
-    color: #c3a1a0;
-    margin-top: -5px;
-}
-
-.imagen-producto {
-    width: 200px;
-    margin: 50px;
-}
-
-.desc {
-    text-transform: none;
-    letter-spacing: 0;
-    margin-bottom: 17px;
-    color: #000000;
-    font-size: 0.7em;
-    line-height: 1.6em;
-    margin-right: 25px;
-    text-align: justify;
-}
-
-.product-card button {
-    background: #cda9ac;
-    padding: 10px;
+#emicard {
     display: inline-block;
-    outline: 0;
-    border: 0;
-    margin: -1px;
-    border-radius: 2px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #f5f5f5;
-    cursor: pointer;
-}
-.product-card button:hover {
-    background: #ba7e7e;
-    transition: all 0.4s ease-in-out;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 0 15px;
+    padding: 10px 0;
 }
 
-.container-products-carrito{
-    position: relative;
-    top: 80px;
-    margin: 30px;
+@media (max-width: 980px) {
+    #emicard {
+        display: inline-block;
+    }
 }
-.paginacion-section{
-    width: 100%;
-    height: 500px;
+
+@media (max-width: 620px) {
+    #emicard {
+        display: inline-block; /* Cambio de grid a inline-block */
+    }
+}
+
+#emicard .emicard {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    display: grid;
+    grid-template-columns: 300px;
+    grid-template-rows: 140px 35px 20px 150px 125px;
+    grid-template-areas: "image" "title" "detail" "text" "product-price";
+    border-radius: 18px;
+    background: white;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+    font-family: roboto;
+    margin: 15px 30px;
+}
+
+#emicard .emicard-image {
+    grid-area: image;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+}
+
+#emicard .emicard-title {
+    grid-area: title;
+}
+
+#emicard .emicard-detail {
+    grid-area: detail;
+    margin-top: 95px; /* Ajustar el margen superior */
+    border-top: 1px solid transparent;
+}
+
+#emicard .emicard-text {
+    grid-area: text;
+}
+
+
+#emicard .emicard-product-price {
+    grid-area: product-price;
+}
+
+#emicard .emicard-image {
+    background-color: #A9a9a9;
+    background-size: cover;
+    background-position: center;
+}
+
+#emicard .emicard-image img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-repeat: no-repeat;
+    grid-area: image;
+    width: auto; /* Permitir que el ancho sea flexible */
+    height: 250px;
+    display: block; /* Asegurarse de que la imagen se comporte como un bloque */
+    margin: 10px auto; /* Centrar horizontalmente la imagen dentro del contenedor */
+    max-width: 100%; /* Ajustar el ancho máximo al 100% del contenedor */
+    object-fit: cover; /* Mostrar la imagen completa sin recortar los anchos */
+}
+
+#emicard .emicard-title h2 {
+    grid-area: title;
+    margin: 140px 25px 0; /* Reducir el margen superior */
+    color: black;
+    font-size: 21px;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+#emicard .emicard-detail {
+    grid-area: detail;
+    margin: 140px 25px;
+}
+
+#emicard .emicard-detail h3 {
+    color: grey;
+    font-size: 15px;
+    font-weight: 300;
+    text-align: left;
+    line-height: 1.5em;
+
+}
+
+#emicard .emicard-detail .date {
+    color: black;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+
+#emicard .emicard-text {
+    grid-area: text;
+    margin: 25px;
+    margin-top: 145px;
+}
+
+#emicard .emicard-text p {
+    color: grey;
+    font-size: 17px;
+    font-weight: 300;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+#emicard .emicard-product-price {
+    grid-area: product-price;
+    display: grid; /* Usar una cuadrícula para organizar los elementos */
+    grid-template-columns: 1fr 1fr; /* Dividir el espacio en dos columnas */
+    align-items: center;
+    justify-content: space-between; /* Espacio uniforme entre los elementos */
     position: relative;
     text-align: center;
-    left: 300px;
-    
+    margin-top: 60px;
+}
+
+#emicard .emicard-product-price p {
+    font-size: 20px;
+    color: black;
+    margin: 0; /* Eliminar el margen */
+}
+
+
+#emicard span {
+    display: inline-block;
+    height: 50px;
+    font-size: 25px;
+}
+
+#emicard .emicard-product-price button {
+    height: 50px;
+    width: auto; /* Permitir que el ancho se ajuste automáticamente al contenido */
+    padding: 0 20px; /* Reducir el padding lateral */
+    box-sizing: border-box;
+    border: transparent;
+    border-radius: 60px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    background-color: black;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 25px;
+}
+
+#emicard .emicard-product-price button:hover {
+    background-color: grey;
+}
+
+#emicard .emicard:hover {
+
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+#emicard .emicard {
+    transition: 0.5s ease;
+    cursor: pointer;
+    margin: 30px;
 }

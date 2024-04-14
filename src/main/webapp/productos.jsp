@@ -34,7 +34,7 @@
             rel="stylesheet prefetch"
             href="https://fonts.googleapis.com/css?family=Poppins:400,700"
             />
-        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/style.css"/>
     </head>
     <body>
         <header>
@@ -55,13 +55,6 @@
                         <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
                         <button type="submit">Buscar</button>
                     </form>
-
-                    
-                    <c:forEach items="${productos}" var="item">
-                        <div class="cards-products">
-                            
-                        </div>
-                    </c:forEach>
                 </section>
             </div>
 
@@ -89,38 +82,37 @@
             </section>
 
 
-            <section class="contenedor-productos">
-                <div class="cards-products">
-                    <div class="container-products-principal">
-                        <c:forEach items="${productos}" var="item" varStatus="loop">
-                            <div class="container-products">
-                                <form action="Carrito_Controlador" method="get">
-                                    <div class="images">
-                                        <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
-                                    </div>
-                                    <div class="product-card">
-                                        <p>${item.nombreCategoria}</p>
-                                        <h1>${item.nombre}</h1>
-                                        <h2>₡${item.precio}</h2>
-                                        <p class="desc">${item.descripcion}</p>
-                                        <p>Stock: ${item.stock}</p>
-
-                                        <div class="buttons-product">
-                                            <input type="hidden" name="accion" value="agregar">
-                                            <input type="hidden" name="id" value="${item.idProd}">
-                                            <button type="button" class="add" onclick="agregarAlCarrito(${item.idProd})">Agregar a Carrito</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            
-                            <c:if test="${loop.index % 3 == 2}">
-                                <div style="flex-basis: 100%; height: 0;"></div>
-                            </c:if>
-                        </c:forEach>
+            <c:forEach items="${productos}" var="item">
+                <section id="emicard">
+                    <div class="emicard">
+                        <div class="emicard-image">
+                            <img class="imagen-producto" src="assets/img/imagenes_productos/${item.imagen}" alt="${item.nombre}" />
+                        </div>
+                        <div class="emicard-title">
+                            <h2>${item.nombre}</h2>
+                        </div>
+                        <div class="emicard-detail">
+                            <h3>${item.nombreCategoria} | <span class="date">Stock: ${item.stock}</span></h3>
+                        </div>
+                        <div class="emicard-text">
+                            <p>${item.descripcion}</p>
+                        </div>
+                        <div class="emicard-product-price">
+                            <p>₡<span>${item.precio}</span></p>
+                            <form action="Carrito_Controlador" method="get">
+                                <input type="hidden" name="accion" value="agregar">
+                                <input type="hidden" name="id" value="${item.idProd}">
+                                <button type="button" onclick="agregarAlCarrito(${item.idProd})">Añadir</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <c:if test="${loop.index % 3 == 2}">
+                    <div style="flex-basis: 100%; height: 0;"></div>
+                </c:if>
+            </c:forEach>
+
 
             
         </main>

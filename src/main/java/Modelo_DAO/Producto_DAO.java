@@ -253,11 +253,6 @@ public class Producto_DAO {
         return idCompraGenerado;
     }
     
-    
-
-    // Otros métodos de tu clase Producto_DAO
-
-    // Método para disminuir el stock del producto en la base de datos
     public void disminuirStockProducto(int idProducto, int cantidadVendida) {
         Connection conn = null;
         PreparedStatement stmt = null;
