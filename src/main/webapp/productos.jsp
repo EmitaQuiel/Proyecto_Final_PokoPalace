@@ -1,3 +1,4 @@
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -21,7 +22,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
             />
-        
+        <!-- Pokemon Slider Styles -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -34,50 +35,50 @@
             rel="stylesheet prefetch"
             href="https://fonts.googleapis.com/css?family=Poppins:400,700"
             />
-        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="./css/style.css" />
     </head>
     <body>
-        <header style="background-color: white;">
-            <div class="header-container">
-                <nav>
-                    <a href="./index.jsp">Inicio</a>
-                    <a href="./productos.jsp">Productos</a>
-                    <a href="">Contacto</a>
-                    <a id="cartLink" href="Carrito_Controlador?accion=listar"> <i class="fa fa-shopping-cart"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span> Carrito </a>
-
-                </nav>
-
-                
-                <section>
-                    
-                    <form action="Carrito_Controlador" method="get">
-                        <input type="hidden" name="accion" value="buscar">
-                        <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-                        <button type="submit">Buscar</button>
-                    </form>
-                </section>
-            </div>
-
+        <header>
+            <nav class="modern-navbar">
+                <div class="modern-logo">
+                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+                </div>
+                <ul class="modern-nav">
+                    <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
+                    <li class="modern-nav-items"><a href=""><span class="link-text">Contacto</span><i class="fa-solid fa-user"></i></a></li>
+                    <li class="modern-nav-items"><a id="cartLink" href="Carrito_Controlador?accion=listar"><span class="link-text">Carrito</span><i class="fa-solid fa-cart-shopping"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span></a></li>
+                </ul>
+                <form action="Carrito_Controlador" method="get" class="search-form">
+                    <input type="hidden" name="accion" value="buscar">
+                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
+                    <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
+                </form>
+            </nav>
         </header>
 
         <main>
 
-            <section class="dropdown-categorias-menu">
-                <div class="dropdown categorias">
-                    <form action="Carrito_Controlador" method="post">
-                        <select name="categoria">
-                            <option value="">Todos los productos</option> 
-                            <option value="Peluche">Peluche</option>
-                            <option value="Videojuego">Videojuego</option>
-                            <option value="TCG">TCG</option>
-                            <option value="Figuras">Figuras</option>
-                            <option value="Consolas">Consolas</option>
-                        </select>
-                        <input type="hidden" name="accion" value="filtrar">
-                        <input type="submit" value="Filtrar">
-                    </form>
+            <form id="filterForm" action="Carrito_Controlador" method="post">
+                <div class="filterbody">
+                    <div class="filtertabs">
+                        <input checked="" value="" name="categoria" id="todos" type="radio" class="input" />
+                        <label for="todos" class="filterlabel">Todos</label>
+                        <input value="Peluche" name="categoria" id="peluche" type="radio" class="input" />
+                        <label for="peluche" class="filterlabel">Peluches</label>
+                        <input value="Videojuego" name="categoria" id="videojuego" type="radio" class="input" />
+                        <label for="videojuego" class="filterlabel">Videojuegos</label>
+                        <input value="TCG" name="categoria" id="tcg" type="radio" class="input" />
+                        <label for="tcg" class="filterlabel">TCG</label>
+                        <input value="Figuras" name="categoria" id="figuras" type="radio" class="input" />
+                        <label for="figuras" class="filterlabel">Figuras</label>
+                        <input value="Consolas" name="categoria" id="consolas" type="radio" class="input" />
+                        <label for="consolas" class="filterlabel">Consolas</label>
+                    </div>
                 </div>
-            </section>
+                <input type="hidden" name="accion" value="filtrar">
+            </form>
 
 
             <c:forEach items="${productos}" var="item">
@@ -112,7 +113,7 @@
             </c:forEach>
 
 
-            
+
         </main>
 
         <script>
@@ -120,19 +121,31 @@
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        
+
                         alert("Producto agregado al carrito");
 
-                        
+
                         var cartLink = document.getElementById("cartLink");
                         var cartItemCount = parseInt(cartLink.querySelector(".fw-bold").innerText);
-                        cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1; 
+                        cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1;
                     }
                 };
                 xhttp.open("GET", "Carrito_Controlador?accion=agregar&id=" + idProducto, true);
                 xhttp.send();
             }
 
+
+        </script>
+
+        <script>
+            const filterLabels = document.querySelectorAll('.filterlabel');
+            filterLabels.forEach(label => {
+                label.addEventListener('click', function () {
+                    const category = this.getAttribute('for');
+                    document.getElementById(category).checked = true;
+                    document.getElementById('filterForm').submit();
+                });
+            });
         </script>
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
