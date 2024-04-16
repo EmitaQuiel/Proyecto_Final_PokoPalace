@@ -18,17 +18,14 @@
             />
     </head>
     <body>
-        <%-- Verificar si se ha producido un error al generar la compra --%>
-        <% if (request.getParameter("error") != null) { %>
         <div class="container mt-4">
             <div class="col-sm-4">
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Error al generar la compra</h4>
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading"> No se logro realizar la accion</h4>
                     <a href="./productos.jsp" class="btn btn-warning">Volver</a>
                 </div>
             </div>
         </div>
-        <% }%>
 
     </body>
 </html>

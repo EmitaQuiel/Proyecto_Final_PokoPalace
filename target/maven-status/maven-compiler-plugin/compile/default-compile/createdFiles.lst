@@ -1,6 +1,8 @@
 util\carrito.class
+Modelo\Usuario.class
 config\Conexion.class
 config\Fecha.class
+Modelo_DAO\Usuario_DAO.class
 Modelo_DAO\DetallePedido_DAO.class
 Modelo\Cliente.class
 Modelo\InformacionCompra.class

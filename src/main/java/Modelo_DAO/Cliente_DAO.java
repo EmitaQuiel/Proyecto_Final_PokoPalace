@@ -2,6 +2,7 @@ package Modelo_DAO;
 
 import Modelo.Cliente;
 import Modelo.InformacionCompra;
+import Modelo.Usuario;
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,6 @@ public class Cliente_DAO {
     private Connection cn = null;
     private PreparedStatement ps = null;
 
-    
     public void insertarCliente(Cliente cliente) {
         Connection cn = null;
         PreparedStatement ps = null;
@@ -101,10 +101,11 @@ public class Cliente_DAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
-            
+
         }
 
         return cliente;
     }
 
+    
 }

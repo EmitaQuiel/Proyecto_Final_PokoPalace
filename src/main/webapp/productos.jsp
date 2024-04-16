@@ -41,22 +41,30 @@
     </head>
     <body>
         <header>
-            <nav class="modern-navbar">
-                <div class="modern-logo">
-                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+    <nav class="modern-navbar">
+        <div class="modern-logo">
+            <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+        </div>
+        <ul class="modern-nav">
+            <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
+            <li class="modern-nav-items"><a href=""><span class="link-text">Contacto</span><i class="fa-solid fa-user"></i></a></li>
+            <li class="modern-nav-items"><a id="cartLink" href="Carrito_Controlador?accion=listar"><span class="link-text">Carrito</span><i class="fa-solid fa-cart-shopping"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span></a></li>
+            <li class="modern-nav-items dropdown">
+                <a href="#" class="dropbtn"><span class="link-text">Cuenta</span><i class="fa-solid fa-user"></i></a>
+                <div class="dropdown-content">
+                    <a href="./iniciarSesion.jsp">Iniciar Sesión</a>
+                    <a href="./registrarse.jsp">Registrarse</a>
                 </div>
-                <ul class="modern-nav">
-                    <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
-                    <li class="modern-nav-items"><a href=""><span class="link-text">Contacto</span><i class="fa-solid fa-user"></i></a></li>
-                    <li class="modern-nav-items"><a id="cartLink" href="Carrito_Controlador?accion=listar"><span class="link-text">Carrito</span><i class="fa-solid fa-cart-shopping"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span></a></li>
-                </ul>
-                <form action="Carrito_Controlador" method="get" class="search-form">
-                    <input type="hidden" name="accion" value="buscar">
-                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-                    <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
-                </form>
-            </nav>
-        </header>
+            </li>
+        </ul>
+        <form action="Carrito_Controlador" method="get" class="search-form">
+            <input type="hidden" name="accion" value="buscar">
+            <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
+            <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
+        </form>
+    </nav>
+</header>
+
 
         <main>
 

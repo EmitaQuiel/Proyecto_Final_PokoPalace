@@ -3,17 +3,19 @@ package Controlador;
 import Modelo.Cliente;
 import Modelo.InformacionCompra;
 import Modelo.Producto;
+import Modelo.Usuario;
 import Modelo.detallePedido;
 import Modelo_DAO.Cliente_DAO;
 import Modelo_DAO.DetallePedido_DAO;
 import Modelo_DAO.Producto_DAO;
+import Modelo_DAO.Usuario_DAO;
 import java.io.IOException;
-import static java.lang.System.out;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import util.carrito;
 
@@ -57,7 +59,12 @@ public class Carrito_Controlador extends HttpServlet {
             case "guardarCliente":
                 guardarCliente(request, response);
                 break;
-
+            case "registrarUsuario":
+                registrarUsuario(request, response);
+                break;
+            case "iniciarSesion":
+                iniciarSesion(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -211,13 +218,60 @@ public class Carrito_Controlador extends HttpServlet {
             double precioTotalDetalle = item.getProducto().getPrecio() * item.getCantidad();
             detallePedido.setPrecioTotal(precioTotalDetalle);
             detallePedido.setEstadoPago(estado);
-            
+
             detallePedidoDAO.insertarDetallePedido(detallePedido);
             productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
         }
 
         objCarrito.vaciarCarrito(request);
         response.sendRedirect("mensaje.jsp");
+    }
+
+    protected void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nombreUsuario = request.getParameter("usuario");
+        String contrasena = request.getParameter("contrasena");
+        String emailCliente = request.getParameter("email");
+
+        Usuario_DAO usuarioDAO = new Usuario_DAO();
+        Usuario nuevoUsuario = new Usuario();
+        nuevoUsuario.setNombreUsuario(nombreUsuario);
+        nuevoUsuario.setContrasena(contrasena);
+        nuevoUsuario.setEmailCliente(emailCliente);
+
+        if (!usuarioDAO.emailExistente(emailCliente)) {
+
+            if (usuarioDAO.insertarUsuario(nuevoUsuario)) {
+                request.getRequestDispatcher("iniciarSesion.jsp").forward(request, response);
+                return;
+            }
+        }
+
+        request.getRequestDispatcher("mensajeRealizarCompra.jsp").forward(request, response);
+    }
+
+    private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String nombreUsuario = request.getParameter("nombreUsuario");
+        String contrasena = request.getParameter("contrasena");
+
+        Usuario_DAO usuarioDAO = new Usuario_DAO();
+        Usuario usuario = usuarioDAO.obtenerPorNombreUsuario(nombreUsuario);
+
+        if (usuario != null && validarContrasena(contrasena, usuario.getContrasena())) {
+            // Inicio de sesión exitoso
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario", usuario);
+            response.sendRedirect("historialCompras.jsp"); // Cambiar aquí
+        } else {
+            // Nombre de usuario o contraseña incorrectos
+            request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
+            request.getRequestDispatcher("iniciarSesion.jsp").forward(request, response);
+        }
+    }
+
+    private boolean validarContrasena(String contrasenaIngresada, String contrasenaAlmacenada) {
+        return contrasenaIngresada.equals(contrasenaAlmacenada);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
