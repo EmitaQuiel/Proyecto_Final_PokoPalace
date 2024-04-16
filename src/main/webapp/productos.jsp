@@ -22,7 +22,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
             />
-        <!-- Pokemon Slider Styles -->
+        
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -41,33 +41,35 @@
     </head>
     <body>
         <header>
-    <nav class="modern-navbar">
-        <div class="modern-logo">
-            <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
-        </div>
-        <ul class="modern-nav">
-            <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
-            <li class="modern-nav-items"><a href=""><span class="link-text">Contacto</span><i class="fa-solid fa-user"></i></a></li>
-            <li class="modern-nav-items"><a id="cartLink" href="Carrito_Controlador?accion=listar"><span class="link-text">Carrito</span><i class="fa-solid fa-cart-shopping"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span></a></li>
-            <li class="modern-nav-items dropdown">
-                <a href="#" class="dropbtn"><span class="link-text">Cuenta</span><i class="fa-solid fa-user"></i></a>
-                <div class="dropdown-content">
-                    <a href="./iniciarSesion.jsp">Iniciar Sesión</a>
-                    <a href="./registrarse.jsp">Registrarse</a>
+            <nav class="modern-navbar">
+                <div class="modern-logo">
+                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
                 </div>
-            </li>
-        </ul>
-        <form action="Carrito_Controlador" method="get" class="search-form">
-            <input type="hidden" name="accion" value="buscar">
-            <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-            <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
-        </form>
-    </nav>
-</header>
+                <ul class="modern-nav">
+                    <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
+                    <li class="modern-nav-items"><a href=""><span class="link-text">Contacto</span><i class="fa-solid fa-user"></i></a></li>
+                    <li class="modern-nav-items"><a id="cartLink" href="Carrito_Controlador?accion=listar"><span class="link-text">Carrito&nbsp;&nbsp;</span><i class="fa-solid fa-cart-shopping"></i> <span class="fw-bold">${sessionScope.carrito != null? sessionScope.carrito.size():0}</span></a></li>
+                    <li class="modern-nav-items dropdown">
+                        <a href="#" class="dropbtn"><span class="link-text">Cuenta</span><i class="fa-solid fa-user"></i></a>
+                        <div class="dropdown-content">
+                            <a href="./iniciarSesion.jsp">Iniciar Sesión</a>
+                            <a href="./registrarse.jsp">Registrarse</a>
+                        </div>
+                    </li>
+                </ul>
+                <form action="Carrito_Controlador" method="get" class="search-form">
+                    <input type="hidden" name="accion" value="buscar">
+                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
+                    <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
+                </form>
+            </nav>
+        </header>
 
 
         <main>
 
+
+            <div id="overlay" style="display: none;"></div>
             <form id="filterForm" action="Carrito_Controlador" method="post">
                 <div class="filterbody">
                     <div class="filtertabs">
@@ -89,6 +91,18 @@
             </form>
 
 
+
+            <div id="loader" class="spinner" style="display:none;">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
             <c:forEach items="${productos}" var="item">
                 <section id="emicard">
                     <div class="emicard">
@@ -120,8 +134,6 @@
                 </c:if>
             </c:forEach>
 
-
-
         </main>
 
         <script>
@@ -151,10 +163,21 @@
                 label.addEventListener('click', function () {
                     const category = this.getAttribute('for');
                     document.getElementById(category).checked = true;
-                    document.getElementById('filterForm').submit();
+                    document.getElementById('overlay').style.display = 'block'; // Mostrar overlay
+                    document.getElementById('loader').style.display = 'block'; // Mostrar loader
+                    // Agregar un retraso de 2 segundos (2000 milisegundos) antes de ocultar el overlay y el loader
+                    setTimeout(function () {
+                        document.getElementById('overlay').style.display = 'none'; // Ocultar overlay
+                        document.getElementById('loader').style.display = 'none'; // Ocultar loader
+                        // Enviar el formulario después de ocultar el overlay y el loader
+                        document.getElementById('filterForm').submit();
+                    }, 2000);
                 });
             });
         </script>
+
+
+
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="./js/funcionalidades_index.js"></script>

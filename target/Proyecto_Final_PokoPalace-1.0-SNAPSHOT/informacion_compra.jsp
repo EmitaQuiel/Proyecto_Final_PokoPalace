@@ -13,48 +13,49 @@
         <div class="container mx-auto py-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Formulario de Cliente -->
-                <div class="max-w-md mr-auto md:mx-0">
+                <div class="max-w-md mr-auto md:mx-0 md:max-w-none">
                     <h2 class="text-3xl font-semibold mb-4">Formulario de Cliente</h2>
                     <form action="Carrito_Controlador" method="POST" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-6 mr-8">
-                            <div class="mb-4 mx-4">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="mb-8">
                                 <label for="cedula" class="block mb-1">Cédula:</label>
                                 <input type="text" id="cedula" name="cedula" maxlength="9" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="nombres" class="block mb-1">Nombres:</label>
                                 <input type="text" id="nombres" name="nombres" maxlength="100" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="apellidos" class="block mb-1">Apellidos:</label>
                                 <input type="text" id="apellidos" name="apellidos" maxlength="150" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="email" class="block mb-1">Correo electrónico:</label>
                                 <input type="email" id="email" name="email" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="telefono" class="block mb-1">Teléfono:</label>
                                 <input type="text" id="telefono" name="telefono" maxlength="15" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="provincia" class="block mb-1">Provincia:</label>
                                 <input type="text" id="provincia" name="provincia" maxlength="15" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="canton" class="block mb-1">Cantón:</label>
                                 <input type="text" id="canton" name="canton" maxlength="50" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="distrito" class="block mb-1">Distrito:</label>
                                 <input type="text" id="distrito" name="distrito" maxlength="50" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
-                            <div class="mb-4 mx-4">
+                            <div class="mb-8">
                                 <label for="direccion" class="block mb-1">Dirección:</label>
                                 <input type="text" id="direccion" name="direccion" maxlength="255" required class="w-[22rem] border rounded-md px-3 py-2">
                             </div>
                         </div>
-                        <!-- Otros campos del formulario aquí -->
+
+
 
                         <div class="space-y-2">
                             <label class="block">Método de Pago:</label>
@@ -62,7 +63,18 @@
                                    class="mr-2"><label for="pago-tarjeta">Pagar con tarjeta</label>
                             <input type="radio" id="pago-tienda" name="metodo-pago" value="tienda"
                                    class="mr-2"><label for="pago-tienda">Pagar en tienda</label>
+                            
                         </div>
+
+                        <div class="space-y-2">
+                            <label class="block">Método de envío:</label>
+                            <input type="radio" id="envio-tienda" name="metodo-envio" value="tienda" class="mr-2">
+                            <label for="envio-tienda">Recoger en tienda</label>
+                            <input type="radio" id="envio-correos" name="metodo-envio" value="correos" class="mr-2">
+                            <label for="envio-correos">Correos de Costa Rica</label>
+                        </div>
+
+
 
                         <div id="detalles-tarjeta" class="hidden">
                             <label for="numero-tarjeta" class="block">Número de Tarjeta:</label>
@@ -87,7 +99,7 @@
                     </form>
                 </div>
 
-                <!-- Detalles del Carrito -->
+
                 <div class="bg-white rounded-lg border border-gray-200 shadow-md p-6">
                     <h3 class="text-xl font-semibold mb-4">Detalles del Carrito:</h3>
                     <table class="w-full border-collapse border border-gray-200">

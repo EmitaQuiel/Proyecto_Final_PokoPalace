@@ -1,18 +1,21 @@
 package Modelo_DAO;
 
+import Modelo.InformacionCompra;
 import Modelo.Usuario;
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Usuario_DAO {
 
     public boolean insertarUsuario(Usuario usuario) {
         Connection cn = null;
         PreparedStatement ps = null;
-        boolean exito = false; // Variable para indicar el éxito de la inserción
+        boolean exito = false; 
 
         try {
             cn = Conexion.getConnection();
@@ -24,7 +27,7 @@ public class Usuario_DAO {
 
             int filasAfectadas = ps.executeUpdate();
 
-            // Si se inserta al menos una fila, consideramos que la inserción fue exitosa
+            
             if (filasAfectadas > 0) {
                 exito = true;
             }
@@ -32,7 +35,7 @@ public class Usuario_DAO {
             ex.printStackTrace();
         }
 
-        return exito; // Devolvemos el resultado de la inserción
+        return exito;
     }
 
     public boolean emailExistente(String emailCliente) {
@@ -45,17 +48,50 @@ public class Usuario_DAO {
             cn = Conexion.getConnection();
             String sql = "SELECT COUNT(*) FROM usuarios WHERE email_cliente = ?";
             ps = cn.prepareStatement(sql);
-            ps.setString(1, emailCliente); // Cambiar de 'email' a 'emailCliente'
+            ps.setString(1, emailCliente); 
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                // Si el conteo es mayor que 0, significa que el correo electrónico ya está registrado
+                
                 existe = rs.getInt(1) > 0;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return existe;
+    }
+
+    public List<InformacionCompra> obtenerHistorialCompras(int idUsuario) {
+        Connection cn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<InformacionCompra> historialCompras = new ArrayList<>();
+
+        try {
+            cn = Conexion.getConnection();
+            String sql = "SELECT * FROM detalles_pedido WHERE id_cliente = ?";
+            ps = cn.prepareStatement(sql);
+            ps.setInt(1, idUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                InformacionCompra detalle = new InformacionCompra();
+                detalle.setIdDetalle(rs.getInt("id_detalle"));
+                detalle.setIdCliente(rs.getInt("id_cliente"));
+                detalle.setIdProducto(rs.getInt("id_producto"));
+                detalle.setCantidad(rs.getInt("cantidad"));
+                detalle.setPrecioCompra(rs.getDouble("precioCompra"));
+                detalle.setMetodoPago(rs.getString("metodo_pago"));
+                detalle.setPrecioTotal(rs.getDouble("precio_total"));
+                detalle.setEstadoPago(rs.getString("estadoPago"));
+                
+                historialCompras.add(detalle);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } 
+
+        return historialCompras;
     }
 
     public Usuario obtenerPorNombreUsuario(String nombreUsuario) {
@@ -80,7 +116,7 @@ public class Usuario_DAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
+        }
 
         return usuario;
     }
@@ -107,7 +143,7 @@ public class Usuario_DAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
+        }
 
         return usuario;
     }

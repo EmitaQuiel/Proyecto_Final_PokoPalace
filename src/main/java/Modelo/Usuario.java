@@ -5,6 +5,7 @@ public class Usuario {
     private String nombreUsuario;
     private String contrasena;
     private String emailCliente;
+    private String rolUsuario;
 
     // Constructor vacío
     public Usuario() {
@@ -50,5 +51,14 @@ public class Usuario {
     public void setEmailCliente(String emailCliente) {
         this.emailCliente = emailCliente;
     }
+
+    public String getRolUsuario() {
+        return rolUsuario;
+    }
+
+    public void setRolUsuario(String rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+    
 }
 

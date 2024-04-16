@@ -100,10 +100,7 @@ public class Cliente_DAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-
-        }
-
+        } 
         return cliente;
     }
 

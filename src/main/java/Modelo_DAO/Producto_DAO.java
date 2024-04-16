@@ -43,21 +43,7 @@ public class Producto_DAO {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        } 
 
         return lista;
     }
@@ -84,20 +70,6 @@ public class Producto_DAO {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
 
         return obj;
@@ -127,22 +99,7 @@ public class Producto_DAO {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
         }
-
         return lista;
     }
 
@@ -178,26 +135,12 @@ public class Producto_DAO {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (cn != null) {
-                    cn.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+        } 
 
         return lista;
     }
 
-    public int guardarDetallesPedido(int idCliente, String metodoPago, double precioTotal, String estadoPago, ArrayList<InformacionCompra> carrito) {
+    public int guardarDetallesPedido(int idCliente, String metodoPago, double precioTotal, String estadoPago, String metodoEnvio, ArrayList<InformacionCompra> carrito) {
         Connection cn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -205,7 +148,7 @@ public class Producto_DAO {
 
         try {
             cn = Conexion.getConnection();
-            String sql = "INSERT INTO detalles_pedido (id_cliente, id_producto, cantidad, precioCompra, metodo_pago, precio_total, estadoPago) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO detalles_pedido (id_cliente, id_producto, cantidad, precioCompra, metodo_pago, precio_total, estadoPago, metodo_envio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             cn.setAutoCommit(false);
@@ -219,6 +162,7 @@ public class Producto_DAO {
                 ps.setString(5, metodoPago);
                 ps.setDouble(6, precioTotal);
                 ps.setString(7, estadoPago);
+                ps.setString(8, metodoEnvio);
                 ps.executeUpdate();
             }
 
@@ -237,22 +181,7 @@ public class Producto_DAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (cn != null) {
-                    cn.setAutoCommit(true);
-                    cn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
+        } 
 
         return idCompraGenerado;
     }
@@ -272,29 +201,9 @@ public class Producto_DAO {
 
             int filasActualizadas = stmt.executeUpdate();
 
-            if (filasActualizadas == 0) {
-                System.out.println("No se pudo actualizar el stock del producto con id: " + idProducto);
-            } else {
-                System.out.println("Stock del producto con id " + idProducto + " actualizado correctamente.");
-            }
         } catch (SQLException e) {
             System.out.println("Error al actualizar el stock del producto: " + e.getMessage());
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    System.out.println("Error al cerrar el statement: " + e.getMessage());
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
-                }
-            }
-        }
+        } 
     }
 
 }

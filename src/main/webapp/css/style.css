@@ -1659,7 +1659,7 @@ nav {
     height: var(--height);
     display: grid;
     grid-auto-flow: column;
-    background: hsl(0 0% 0%);
+    background: white;
     border-radius: var(--radius);
     grid-auto-columns: 1fr;
     position: relative;
@@ -1767,29 +1767,9 @@ nav {
     transition: background, color;
     transition-duration: 0.25s;
     transition-timing-function: var(--ease, ease);
-    color: white;
+    color: black;
 }
 
-.input:not(:checked)+.filterlabel:hover {
-    --highlight: 0.35;
-    background: hsl(0 0% 20%);
-}
-
-.filtertabs::after {
-    pointer-events: none;
-    content: "";
-    width: calc(100% / var(--count));
-    height: 100%;
-    background: hsl(0 0% 100%);
-    position: absolute;
-    border-radius: calc(var(--radius) - var(--border));
-    mix-blend-mode: difference;
-    translate: calc(var(--active, 0) * 100%) 0;
-    transition: translate, outline-color;
-    transition-duration: var(--speed);
-    transition-timing-function: var(--ease, ease);
-    outline: 2px solid transparent;
-}
 
 .filtertabs:has(:focus-visible)::after {
     outline-color: red;
@@ -2112,4 +2092,99 @@ nav {
     line-height: 1.4;
     /* Ajusta el espaciado entre líneas según tus necesidades */
     color: white;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Color oscuro con opacidad */
+    z-index: 9998; /* Asegura que el overlay esté detrás del loader */
+}
+
+.spinner {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-left: -75px;
+    
+}
+
+.spinner {
+    position: fixed;
+    top: 50%; /* Cambia este valor según tus necesidades */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.spinner span {
+    position: absolute;
+    top: 50%;
+    left: var(--left);
+    width: 35px;
+    height: 7px;
+    background: #ffff;
+    animation: dominos 1s ease infinite;
+    box-shadow: 2px 2px 3px 0px black;
+}
+
+.spinner span:nth-child(1) {
+    --left: 80px;
+    animation-delay: 0.125s;
+}
+
+.spinner span:nth-child(2) {
+    --left: 70px;
+    animation-delay: 0.3s;
+}
+
+.spinner span:nth-child(3) {
+    left: 60px;
+    animation-delay: 0.425s;
+}
+
+.spinner span:nth-child(4) {
+    animation-delay: 0.54s;
+    left: 50px;
+}
+
+.spinner span:nth-child(5) {
+    animation-delay: 0.665s;
+    left: 40px;
+}
+
+.spinner span:nth-child(6) {
+    animation-delay: 0.79s;
+    left: 30px;
+}
+
+.spinner span:nth-child(7) {
+    animation-delay: 0.915s;
+    left: 20px;
+}
+
+.spinner span:nth-child(8) {
+    left: 10px;
+}
+
+@keyframes dominos {
+    50% {
+        opacity: 0.7;
+    }
+
+    75% {
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+
+    80% {
+        opacity: 1;
+    }
 }

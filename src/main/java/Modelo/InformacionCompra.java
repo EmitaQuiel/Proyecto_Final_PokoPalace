@@ -10,7 +10,11 @@ public class InformacionCompra {
     private String metodoPago;
     private double precioTotal;
     private String estadoPago;
-    
+    private String metodoEnvio;
+    private String nombreCliente;
+    private String apellidoCliente;
+    private String nombreProducto;
+    private double precioProducto;
     
     public int getIdDetalle() {
         return idDetalle;
@@ -76,4 +80,45 @@ public class InformacionCompra {
         this.estadoPago = estadoPago;
     }
 
+    public String getMetodoEnvio() {
+        return metodoEnvio;
+    }
+
+    public void setMetodoEnvio(String metodoEnvio) {
+        this.metodoEnvio = metodoEnvio;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getApellidoCliente() {
+        return apellidoCliente;
+    }
+
+    public void setApellidoCliente(String apellidoCliente) {
+        this.apellidoCliente = apellidoCliente;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public double getPrecioProducto() {
+        return precioProducto;
+    }
+
+    public void setPrecioProducto(double precioProducto) {
+        this.precioProducto = precioProducto;
+    }
+
+    
 }
