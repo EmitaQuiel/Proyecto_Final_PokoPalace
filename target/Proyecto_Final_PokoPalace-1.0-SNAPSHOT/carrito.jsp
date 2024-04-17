@@ -13,6 +13,13 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
             />
+        <link
+            rel="stylesheet"
+            href="./bootstrap-5.3.2-dist/css/bootstrap.min.css"
+            />
+
+        <script src="./bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+        <script src="./bootstrap-5.3.2-dist/css/bootstrap-grid.css"></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="./css/style.css" />
     </head>
@@ -138,19 +145,15 @@
                         <span class="ml-2">Vaciar Carrito</span>
                     </a>
 
-
-
-
                     <div class="ml-auto flex items-center gap-4">
                         <div class="text-sm">¿Tiene un codigo de descuento?</div>
-                        <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[100px]" placeholder="Enter code" type="text" />
-                        <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-9 rounded-md px-3">
+                        <input class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-[100px]" name="codigoDescuento" placeholder="Codigo" type="text" />
+                        <button onclick="submitForm()" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-9 rounded-md px-3">
                             <i class="fas fa-tag"></i>
                             <span class="ml-2">Aplicar</span>
                         </button>
-
-
                     </div>
+
                 </div>
                 <div class="flex items-center p-6">
                     <div class="grid grid-cols-2 items-center gap-4 text-sm">
@@ -159,21 +162,81 @@
                             <div class="ml-auto">₡ ${total}</div>
                         </div>
                         <form action="informacion_compra.jsp" method="post">
-                            <button type="submit" name="accion" value="generarCompra" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-11 rounded-md px-8 w-full">
+                            <button type="submit" name="accion" value="" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-11 rounded-md px-8 w-full">
                                 <i class="fas fa-money-check"></i>
                                 <span class="ml-2">Procesar Pago</span>
                             </button>
-
                         </form>
-
                     </div>
                 </div>
             </div>
 
-
         </main>
 
+        <%
+            String mensaje = (String) request.getAttribute("mensaje");
+            if (mensaje != null && !mensaje.isEmpty()) {
+        %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= mensaje%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%
+            }
+        %>
 
+        <%
+            String mensajeError = (String) request.getAttribute("mensajeError");
+            if (mensajeError != null && !mensajeError.isEmpty()) {
+        %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <%= mensajeError%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%
+            }
+        %>
+
+        <script>
+            function borrarCodigo() {
+                // Limpiar el campo de código de descuento
+                document.getElementsByName("codigoDescuento")[0].value = "";
+            }
+        </script>
+
+
+        <script>
+            function submitForm() {
+                var codigoDescuento = document.getElementsByName('codigoDescuento')[0].value;
+                if (codigoDescuento.trim() !== '') {
+                    // Crear un formulario dinámicamente
+                    var form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = 'Carrito_Controlador';
+
+                    // Input para la acción
+                    var accionInput = document.createElement('input');
+                    accionInput.type = 'hidden';
+                    accionInput.name = 'accion';
+                    accionInput.value = 'aplicarDescuento';
+                    form.appendChild(accionInput);
+
+                    // Input para el código de descuento
+                    var codigoInput = document.createElement('input');
+                    codigoInput.type = 'hidden';
+                    codigoInput.name = 'codigoDescuento';
+                    codigoInput.value = codigoDescuento;
+                    form.appendChild(codigoInput);
+
+                    // Agregar el formulario al cuerpo del documento y enviarlo
+                    document.body.appendChild(form);
+                    form.submit();
+                } else {
+                    // Mensaje de error si el campo está vacío
+                    alert('Por favor ingrese un código de descuento.');
+                }
+            }
+        </script>
 
     </body>
 </html>

@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,14 +16,14 @@
         <div class="container mt-4">
             <div class="col-sm-4">
                 <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Se guardó con éxito</h4>
-                    <p>¡Tu compra se ha registrado correctamente!</p>
+                    <h4 class="alert-heading">¡Compra realizada con éxito!</h4>
+                    <p>Tu compra se ha registrado correctamente.</p>
                     <a href="./productos.jsp" class="btn btn-warning">Volver</a>
-
-                    
                 </div>
             </div>
         </div>
+
+
     </body>
 
 </html>

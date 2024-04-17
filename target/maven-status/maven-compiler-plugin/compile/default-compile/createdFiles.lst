@@ -10,5 +10,6 @@ config\test.class
 Controlador\Carrito_Controlador.class
 Modelo_DAO\Cliente_DAO.class
 Modelo\Producto.class
+Modelo\descuento.class
 Modelo_DAO\Producto_DAO.class
 app\AppInitializer.class

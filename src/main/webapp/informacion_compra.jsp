@@ -63,7 +63,7 @@
                                    class="mr-2"><label for="pago-tarjeta">Pagar con tarjeta</label>
                             <input type="radio" id="pago-tienda" name="metodo-pago" value="tienda"
                                    class="mr-2"><label for="pago-tienda">Pagar en tienda</label>
-                            
+
                         </div>
 
                         <div class="space-y-2">
@@ -126,7 +126,7 @@
             </div>
         </div>
 
-
+        
         <script>
             const pagoTarjeta = document.getElementById('pago-tarjeta');
             const detallesTarjeta = document.getElementById('detalles-tarjeta');

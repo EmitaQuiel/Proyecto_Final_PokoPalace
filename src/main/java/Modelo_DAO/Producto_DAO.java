@@ -43,7 +43,7 @@ public class Producto_DAO {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
+        }
 
         return lista;
     }
@@ -135,7 +135,7 @@ public class Producto_DAO {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        } 
+        }
 
         return lista;
     }
@@ -181,7 +181,7 @@ public class Producto_DAO {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } 
+        }
 
         return idCompraGenerado;
     }
@@ -203,7 +203,66 @@ public class Producto_DAO {
 
         } catch (SQLException e) {
             System.out.println("Error al actualizar el stock del producto: " + e.getMessage());
-        } 
+        }
     }
 
+    public double obtenerDescuentoPorCodigo(String codigo) {
+        double porcentajeDescuento = 0.0;
+        Connection con = null;
+
+        try {
+            con = Conexion.getConnection();
+            String sql = "SELECT porcentaje_descuento FROM Descuentos WHERE codigo = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, codigo);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                porcentajeDescuento = rs.getDouble("porcentaje_descuento");
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return porcentajeDescuento;
+    }
+
+    public boolean verificarExistenciaCupon(String codigoCupon) {
+        boolean cuponExistente = false;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Conexion.getConnection(); // Método para obtener la conexión a la base de datos
+            String query = "SELECT COUNT(*) FROM Descuentos WHERE codigo = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1, codigoCupon);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    // El código de cupón existe en la base de datos
+                    cuponExistente = true;
+                }
+            }
+        } catch (SQLException e) {
+            // Manejar la excepción
+            e.printStackTrace();
+        }
+
+        return cuponExistente;
+    }
 }

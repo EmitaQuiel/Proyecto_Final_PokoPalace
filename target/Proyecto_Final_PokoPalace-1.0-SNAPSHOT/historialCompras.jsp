@@ -6,6 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Historial de Compras</title>
+        <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="./css/style.css" />
     </head>
     <body>
@@ -25,38 +26,111 @@
             </nav>
         </header>
 
-        <h1>Historial de Compras</h1>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Codigo Compra</th>
-
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Compra</th>
-                    <th>Método de Pago</th>
-                    <th>Precio Total</th>
-                    <th>Estado de Pago</th>
-                    <th>Método de Envío</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="detalle" items="${historialCompras}">
-                    <tr>
-                        <td>00${detalle.idDetalle}</td>
-
-                        <td>${detalle.nombreProducto}</td>
-                        <td>${detalle.cantidad}</td>
-                        <td>${detalle.precioCompra}</td>
-                        <td>${detalle.metodoPago}</td>
-                        <td>${detalle.precioTotal}</td>
-                        <td>${detalle.estadoPago}</td>
-                        <td>${detalle.metodoEnvio}</td>
+        <style>
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-family: "Inter", sans-serif;
+                --font-sans: "Inter";
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                --font-sans: "Inter";
+                background-color: #464646;
+                margin-top: 100px;
+            }
+        </style>    
+        <div class="relative w-full overflow-auto">
+            <table class="w-full caption-bottom text-sm">
+                <thead class="[&amp;_tr]:border-b">
+                    <tr
+                        class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                        >
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[150px]"
+                            >
+                            Código Compra
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Producto
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Cantidad
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Precio Compra
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Método Pago
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Precio Total
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                            >
+                            Estado Pago
+                        </th>
+                        <th
+                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[150px]"
+                            >
+                            Método de Envío
+                        </th>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-
-
+                </thead>
+                <tbody class="[&amp;_tr:last-child]:border-0">
+                    <c:forEach var="detalle" items="${historialCompras}">
+                        <tr
+                            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                            >
+                            <td
+                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                                >
+                                00${detalle.idDetalle}
+                            </td>
+                            <td
+                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-sm"
+                                >
+                                ${detalle.nombreProducto}
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                ${detalle.cantidad}
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                ${detalle.precioCompra}
+                            </td>
+                            <td
+                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-sm"
+                                >
+                                ${detalle.metodoPago}
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                ${detalle.precioTotal}
+                            </td>
+                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                                ${detalle.estadoPago}
+                            </td>
+                            <td
+                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                                >
+                                ${detalle.metodoEnvio}
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
     </body>
 </html>

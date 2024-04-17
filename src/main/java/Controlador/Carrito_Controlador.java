@@ -4,6 +4,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
+import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 
 import Modelo.Cliente;
 import Modelo.InformacionCompra;
@@ -14,16 +16,13 @@ import Modelo_DAO.Cliente_DAO;
 import Modelo_DAO.DetallePedido_DAO;
 import Modelo_DAO.Producto_DAO;
 import Modelo_DAO.Usuario_DAO;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +75,9 @@ public class Carrito_Controlador extends HttpServlet {
             case "iniciarSesion":
                 iniciarSesion(request, response);
                 break;
-            
+            case "aplicarDescuento":
+                aplicarDescuento(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -241,10 +242,11 @@ public class Carrito_Controlador extends HttpServlet {
 
             detallePedidoDAO.insertarDetallePedido(detallePedido);
             productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
+
         }
         generarPDF(request, response);
-        objCarrito.vaciarCarrito(request);
         response.sendRedirect("mensaje.jsp");
+        objCarrito.vaciarCarrito(request);
     }
 
     protected void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
@@ -305,18 +307,15 @@ public class Carrito_Controlador extends HttpServlet {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=compra.pdf");
 
-        // Crear un nuevo documento PDF
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();
             document.addPage(page);
 
-            // Crear el contenido del PDF
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 contentStream.beginText();
                 contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
                 contentStream.newLineAtOffset(100, 700);
 
-                // Obtener la información del cliente desde la solicitud
                 String cedula = request.getParameter("cedula");
                 String nombres = request.getParameter("nombres");
                 String apellidos = request.getParameter("apellidos");
@@ -327,7 +326,6 @@ public class Carrito_Controlador extends HttpServlet {
                 String distrito = request.getParameter("distrito");
                 String direccion = request.getParameter("direccion");
 
-                // Escribir la información del cliente en el PDF
                 contentStream.showText("Información del Cliente:");
                 contentStream.newLine();
                 contentStream.showText("Cédula: " + cedula);
@@ -350,10 +348,8 @@ public class Carrito_Controlador extends HttpServlet {
                 contentStream.newLine();
                 contentStream.newLine();
 
-                // Obtener los detalles del carrito desde la sesión
                 ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
 
-                // Escribir los detalles del carrito en el PDF
                 contentStream.showText("Detalles del Carrito:");
                 contentStream.newLine();
                 for (detallePedido detalle : carrito) {
@@ -371,12 +367,75 @@ public class Carrito_Controlador extends HttpServlet {
                 contentStream.endText();
             }
 
-            // Guardar el documento PDF en la respuesta
             document.save(response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    protected void aplicarDescuento(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Obtener el código de descuento del parámetro del formulario
+        String codigoDescuento = request.getParameter("codigoDescuento");
+
+        // Obtener el carrito de la sesión
+        HttpSession session = request.getSession();
+        ArrayList<detallePedido> carrito = (ArrayList<detallePedido>) session.getAttribute("carrito");
+
+        // Verificar si el carrito está vacío
+        if (carrito == null || carrito.isEmpty()) {
+            String mensajeError = "El carrito está vacío. No se pueden aplicar descuentos.";
+            request.setAttribute("mensajeError", mensajeError);
+        } else {
+            // Continuar con la lógica de aplicar descuento solo si el carrito no está vacío
+            Set<String> codigosUtilizados = (Set<String>) session.getAttribute("codigosUtilizados");
+
+            if (codigosUtilizados == null) {
+                codigosUtilizados = new HashSet<>();
+            }
+
+            // Verificar si ya se ha aplicado un descuento
+            boolean descuentoAplicado = session.getAttribute("descuentoAplicado") != null;
+
+            if (descuentoAplicado) {
+                String mensajeError = "Ya has aplicado un descuento.";
+                request.setAttribute("mensajeError", mensajeError);
+            } else {
+                // Verificar si el código de descuento existe en la base de datos
+                Producto_DAO productoDAO = new Producto_DAO();
+                boolean cuponExistente = productoDAO.verificarExistenciaCupon(codigoDescuento);
+
+                if (!cuponExistente) {
+                    // El código de descuento no existe
+                    String mensajeError = "El código de descuento no es válido.";
+                    request.setAttribute("mensajeError", mensajeError);
+                } else {
+                    // Aplicar el descuento
+                    double porcentajeDescuento = productoDAO.obtenerDescuentoPorCodigo(codigoDescuento);
+                    for (detallePedido detalle : carrito) {
+                        double precioConDescuento = detalle.getProducto().getPrecio() * (1 - porcentajeDescuento / 100);
+                        detalle.getProducto().setPrecio(precioConDescuento);
+                    }
+
+                    // Registrar el código de descuento como utilizado y marcar que se aplicó un descuento
+                    codigosUtilizados.add(codigoDescuento);
+                    session.setAttribute("codigosUtilizados", codigosUtilizados);
+                    session.setAttribute("descuentoAplicado", true);
+
+                    // Mostrar un mensaje de éxito
+                    String mensaje = "Descuento aplicado con éxito";
+                    request.setAttribute("mensaje", mensaje);
+                }
+            }
+        }
+
+        // Redirigir a la página con el mensaje correspondiente
+        RequestDispatcher dispatcher = request.getRequestDispatcher("carrito.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
