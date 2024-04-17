@@ -15,10 +15,14 @@
         <div class="container mt-4">
             <div class="col-sm-4">
                 <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading"> Se guardo con exito</h4>
+                    <h4 class="alert-heading">Se guardó con éxito</h4>
+                    <p>¡Tu compra se ha registrado correctamente!</p>
                     <a href="./productos.jsp" class="btn btn-warning">Volver</a>
+
+                    
                 </div>
             </div>
         </div>
     </body>
+
 </html>

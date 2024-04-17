@@ -22,7 +22,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
             />
-        
+
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
@@ -59,8 +59,10 @@
                 </ul>
                 <form action="Carrito_Controlador" method="get" class="search-form">
                     <input type="hidden" name="accion" value="buscar">
-                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-                    <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
+                    <div class="search-container">
+                        <input type="text" name="nombreProducto" class="search-input" placeholder="Busca un producto...">
+                        <button type="submit" class="search-button"><i class="fa-solid fa-search"></i></button>
+                    </div>
                 </form>
             </nav>
         </header>
@@ -102,7 +104,7 @@
                 <span></span>
                 <span></span>
             </div>
-            
+
             <c:forEach items="${productos}" var="item">
                 <section id="emicard">
                     <div class="emicard">
@@ -153,8 +155,6 @@
                 xhttp.open("GET", "Carrito_Controlador?accion=agregar&id=" + idProducto, true);
                 xhttp.send();
             }
-
-
         </script>
 
         <script>

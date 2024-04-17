@@ -26,13 +26,13 @@ public class carrito {
         }
         return total;
     }
-    
+
     public void removerItemCarrito(HttpServletRequest request, int indice) {
         ArrayList<detallePedido> lista = obtenerSesion(request);
         lista.remove(indice);
         guardarSesion(request, lista);
     }
-    
+
     public ArrayList<detallePedido> obtenerSesion(HttpServletRequest request) {
         ArrayList<detallePedido> lista;
 
@@ -48,7 +48,7 @@ public class carrito {
         request.getSession().setAttribute("carrito", lista);
 
     }
-    
+
     public int existeProducto(ArrayList<detallePedido> lista, int idProd) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getProducto().getIdProd() == idProd) {
@@ -57,11 +57,11 @@ public class carrito {
         }
         return -1;
     }
-    
+
     public void vaciarCarrito(HttpServletRequest request) {
-    ArrayList<detallePedido> lista = obtenerSesion(request);
-    lista.clear();
-    guardarSesion(request, lista);
-}
-    
+        ArrayList<detallePedido> lista = obtenerSesion(request);
+        lista.clear();
+        guardarSesion(request, lista);
+    }
+
 }

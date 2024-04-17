@@ -29,8 +29,10 @@
                 </ul>
                 <form action="Carrito_Controlador" method="get" class="search-form">
                     <input type="hidden" name="accion" value="buscar">
-                    <input type="text" name="nombreProducto" placeholder="Buscar producto por nombre">
-                    <button type="submit"><i class="fa-solid fa-chevron-right ok"></i></button>
+                    <div class="search-container">
+                        <input type="text" name="nombreProducto" class="search-input" placeholder="Busca un producto...">
+                        <button type="submit" class="search-button"><i class="fa-solid fa-search"></i></button>
+                    </div>
                 </form>
             </nav>
         </header>

@@ -1,5 +1,10 @@
 package Controlador;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+
 import Modelo.Cliente;
 import Modelo.InformacionCompra;
 import Modelo.Producto;
@@ -9,15 +14,20 @@ import Modelo_DAO.Cliente_DAO;
 import Modelo_DAO.DetallePedido_DAO;
 import Modelo_DAO.Producto_DAO;
 import Modelo_DAO.Usuario_DAO;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import util.carrito;
 
 public class Carrito_Controlador extends HttpServlet {
@@ -66,6 +76,7 @@ public class Carrito_Controlador extends HttpServlet {
             case "iniciarSesion":
                 iniciarSesion(request, response);
                 break;
+            
             default:
                 throw new AssertionError();
         }
@@ -231,7 +242,7 @@ public class Carrito_Controlador extends HttpServlet {
             detallePedidoDAO.insertarDetallePedido(detallePedido);
             productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
         }
-
+        generarPDF(request, response);
         objCarrito.vaciarCarrito(request);
         response.sendRedirect("mensaje.jsp");
     }
@@ -260,11 +271,10 @@ public class Carrito_Controlador extends HttpServlet {
 
     protected void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String nombreUsuario = request.getParameter("nombreUsuario");
         String contrasena = request.getParameter("contrasena");
 
-       
         Usuario_DAO usuarioDAO = new Usuario_DAO();
         Usuario usuario = usuarioDAO.obtenerPorNombreUsuario(nombreUsuario);
 
@@ -273,13 +283,11 @@ public class Carrito_Controlador extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("usuario", usuario);
 
-            
             DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
             ArrayList<InformacionCompra> historialCompras = detallePedidoDAO.obtenerHistorialCompras(usuario.getIdUsuario());
 
             request.setAttribute("historialCompras", historialCompras);
 
-            
             request.getRequestDispatcher("historialCompras.jsp").forward(request, response);
         } else {
 
@@ -290,6 +298,84 @@ public class Carrito_Controlador extends HttpServlet {
 
     private boolean validarContrasena(String contrasenaIngresada, String contrasenaAlmacenada) {
         return contrasenaIngresada.equals(contrasenaAlmacenada);
+    }
+
+    private void generarPDF(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=compra.pdf");
+
+        // Crear un nuevo documento PDF
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            // Crear el contenido del PDF
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                contentStream.beginText();
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+                contentStream.newLineAtOffset(100, 700);
+
+                // Obtener la información del cliente desde la solicitud
+                String cedula = request.getParameter("cedula");
+                String nombres = request.getParameter("nombres");
+                String apellidos = request.getParameter("apellidos");
+                String email = request.getParameter("email");
+                String telefono = request.getParameter("telefono");
+                String provincia = request.getParameter("provincia");
+                String canton = request.getParameter("canton");
+                String distrito = request.getParameter("distrito");
+                String direccion = request.getParameter("direccion");
+
+                // Escribir la información del cliente en el PDF
+                contentStream.showText("Información del Cliente:");
+                contentStream.newLine();
+                contentStream.showText("Cédula: " + cedula);
+                contentStream.newLine();
+                contentStream.showText("Nombres: " + nombres);
+                contentStream.newLine();
+                contentStream.showText("Apellidos: " + apellidos);
+                contentStream.newLine();
+                contentStream.showText("Correo Electrónico: " + email);
+                contentStream.newLine();
+                contentStream.showText("Teléfono: " + telefono);
+                contentStream.newLine();
+                contentStream.showText("Provincia: " + provincia);
+                contentStream.newLine();
+                contentStream.showText("Cantón: " + canton);
+                contentStream.newLine();
+                contentStream.showText("Distrito: " + distrito);
+                contentStream.newLine();
+                contentStream.showText("Dirección: " + direccion);
+                contentStream.newLine();
+                contentStream.newLine();
+
+                // Obtener los detalles del carrito desde la sesión
+                ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
+
+                // Escribir los detalles del carrito en el PDF
+                contentStream.showText("Detalles del Carrito:");
+                contentStream.newLine();
+                for (detallePedido detalle : carrito) {
+                    contentStream.showText("Producto: " + detalle.getProducto().getNombre());
+                    contentStream.newLine();
+                    contentStream.showText("Cantidad: " + detalle.getCantidad());
+                    contentStream.newLine();
+                    contentStream.showText("Precio Unitario: " + detalle.getProducto().getPrecio());
+                    contentStream.newLine();
+                    contentStream.showText("Precio Total: " + detalle.importe());
+                    contentStream.newLine();
+                    contentStream.newLine();
+                }
+
+                contentStream.endText();
+            }
+
+            // Guardar el documento PDF en la respuesta
+            document.save(response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -330,4 +416,5 @@ public class Carrito_Controlador extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

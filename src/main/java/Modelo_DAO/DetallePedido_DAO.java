@@ -1,5 +1,6 @@
 package Modelo_DAO;
 
+import Modelo.Cliente;
 import Modelo.InformacionCompra;
 import config.Conexion;
 import java.sql.Connection;
@@ -73,24 +74,54 @@ public class DetallePedido_DAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-            // Cerrar recursos (ResultSet, PreparedStatement, Connection)
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
 
         return historialCompras;
     }
+
+    public Cliente buscarClientePorId(int idCliente) {
+        Cliente cliente = null;
+
+        try {
+            // Establecer la conexión con la base de datos
+            Connection cn = Conexion.getConnection();
+
+            // Preparar la consulta SQL
+            String sql = "SELECT * FROM clientes WHERE id_cliente = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, idCliente);
+
+            // Ejecutar la consulta
+            ResultSet rs = ps.executeQuery();
+
+            // Verificar si se encontró un cliente con el ID especificado
+            if (rs.next()) {
+                cliente = new Cliente();
+                cliente.setId_Cliente(rs.getInt("id_cliente"));
+                cliente.setCedula(rs.getString("cedula"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setApellidos(rs.getString("apellidos"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setDireccion(rs.getString("direccion"));
+                cliente.setProvincia(rs.getString("provincia"));
+                cliente.setCanton(rs.getString("canton"));
+                cliente.setDistrito(rs.getString("distrito"));
+                cliente.setEmail(rs.getString("email"));
+            }
+
+            // Cerrar recursos
+            rs.close();
+            ps.close();
+            cn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return cliente;
+    }
+
+    
+
+    
 
 }

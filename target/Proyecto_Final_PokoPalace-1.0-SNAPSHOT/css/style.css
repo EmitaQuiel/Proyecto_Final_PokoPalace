@@ -1539,6 +1539,9 @@ nav {
     display: flex;
     padding: 0px 200px;
     position: fixed;
+    font-size: 14px;
+    text-align: center;
+    allign-item: center;
 }
 
 .modern-logo{
@@ -1552,6 +1555,7 @@ nav {
 
 .modern-nav-items{
     padding: 10px;
+    margin-top: 20px;
 }
 
 .modern-nav-items a {
@@ -1624,23 +1628,40 @@ nav {
 
 .search-form {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
-.search-form input[type="text"] {
-    padding: 8px;
-    border: none;
-    border-radius: 5px 0 0 5px;
+
+.search-container {
+    position: relative;
+    display: flex;
+    border-radius: 20px;
+    padding: 5px; 
+    transition: box-shadow 0.3s ease; 
 }
-.search-form button {
-    background-color: #555;
-    color: white;
+
+.search-container:focus-within {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.search-input {
+    padding: 10px;
     border: none;
-    padding: 8px 15px;
-    border-radius: 0 5px 5px 0;
+    outline: none;
+    font-size: 16px;
+    width: 300px;
+}
+
+.search-button {
+    background-color: black;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 20px 20px 0;
     cursor: pointer;
-}
-.search-form button:hover {
-    background-color: #777;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .filterbody {
@@ -1770,11 +1791,15 @@ nav {
     color: black;
 }
 
+.input:not(:checked)+.filterlabel:hover {
+    --highlight: 0.35;
+    background: hsl(0 0% 20%);
+    color: white;
+}
 
 .filtertabs:has(:focus-visible)::after {
     outline-color: red;
 }
-
 
 .categorycont {
     display: grid;
@@ -2113,7 +2138,7 @@ nav {
     align-items: center;
     border-radius: 50%;
     margin-left: -75px;
-    
+
 }
 
 .spinner {
