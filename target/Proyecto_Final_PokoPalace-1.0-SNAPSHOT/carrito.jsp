@@ -17,6 +17,8 @@
             rel="stylesheet"
             href="./bootstrap-5.3.2-dist/css/bootstrap.min.css"
             />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
         <script src="./bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
         <script src="./bootstrap-5.3.2-dist/css/bootstrap-grid.css"></script>
@@ -140,7 +142,7 @@
                     </div>
                 </div>
                 <div class="p-6 flex items-center gap-4">
-                    <a href="Carrito_Controlador?accion=vaciar" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-9 rounded-md px-3">
+                    <a href="Carrito_Controlador?accion=vaciar" id="vaciar-carrito" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-9 rounded-md px-3">
                         <i class="fas fa-trash-alt"></i>
                         <span class="ml-2">Vaciar Carrito</span>
                     </a>
@@ -161,8 +163,8 @@
                             <div>Subtotal</div>
                             <div class="ml-auto">₡ ${total}</div>
                         </div>
-                        <form action="informacion_compra.jsp" method="post">
-                            <button type="submit" name="accion" value="" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-11 rounded-md px-8 w-full">
+                        <form id="formulario-pago" action="informacion_compra.jsp" method="post">
+                            <button type="submit" name="accion" value="" id="boton-pago" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-black hover:bg-gray-300 hover:text-black h-11 rounded-md px-8 w-full">
                                 <i class="fas fa-money-check"></i>
                                 <span class="ml-2">Procesar Pago</span>
                             </button>
@@ -233,8 +235,66 @@
                     form.submit();
                 } else {
                     // Mensaje de error si el campo está vacío
-                    alert('Por favor ingrese un código de descuento.');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Por favor ingrese un código de descuento.',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
+            }
+        </script>
+
+        <script>
+            // Agrega un event listener al botón "Vaciar Carrito"
+            document.getElementById('vaciar-carrito').addEventListener('click', function (event) {
+                // Previene el comportamiento por defecto del enlace
+                event.preventDefault();
+
+                // Muestra la alerta
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "Esta acción vaciará completamente tu carrito. ¿Estás seguro de que deseas continuar?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sí, vaciar carrito",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    // Si el usuario confirma la acción, redirige al enlace del botón "Vaciar Carrito"
+                    if (result.isConfirmed) {
+                        window.location.href = document.getElementById('vaciar-carrito').href;
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            document.getElementById('formulario-pago').addEventListener('submit', function (event) {
+                // Evita que el formulario se envíe automáticamente
+                event.preventDefault();
+
+
+                if (carritoEstaVacio()) {
+                    // El carrito está vacío, muestra un SweetAlert
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡El carrito está vacío!',
+                        text: 'Agrega productos antes de procesar el pago.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                } else {
+                    // El carrito no está vacío, envía el formulario manualmente
+                    this.submit();
+                }
+            });
+
+            function carritoEstaVacio() {
+                // Aquí puedes implementar la lógica para verificar si el carrito está vacío
+                // Puedes utilizar una variable global que contenga los productos en el carrito o hacer una llamada AJAX al servidor
+                // Por ejemplo, podrías verificar si el total del carrito es igual a cero
+                var total = parseFloat("${total}");
+                return total === 0;
             }
         </script>
 

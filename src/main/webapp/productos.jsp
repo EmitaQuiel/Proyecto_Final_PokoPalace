@@ -35,6 +35,7 @@
             rel="stylesheet prefetch"
             href="https://fonts.googleapis.com/css?family=Poppins:400,700"
             />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="./css/style.css" />
@@ -135,7 +136,6 @@
                     <div style="flex-basis: 100%; height: 0;"></div>
                 </c:if>
             </c:forEach>
-
         </main>
 
         <script>
@@ -144,7 +144,12 @@
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
-                        alert("Producto agregado al carrito");
+                        Swal.fire({
+                            title: '¡Producto agregado!',
+                            text: 'El producto ha sido agregado al carrito.',
+                            icon: 'success',
+                            confirmButtonText: '¡Continuar!'
+                        });
 
 
                         var cartLink = document.getElementById("cartLink");

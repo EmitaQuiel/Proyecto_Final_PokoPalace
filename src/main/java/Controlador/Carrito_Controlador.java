@@ -225,6 +225,7 @@ public class Carrito_Controlador extends HttpServlet {
         } else {
             estado = "sin cancelar";
         }
+
         DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
         Producto_DAO productoDAO = new Producto_DAO();
 
@@ -244,9 +245,46 @@ public class Carrito_Controlador extends HttpServlet {
             productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
 
         }
-        generarPDF(request, response);
-        response.sendRedirect("mensaje.jsp");
+//        generarPDF(request, response);
+//        response.sendRedirect("mensaje.jsp");
         objCarrito.vaciarCarrito(request);
+        prepareCompraSummary(request, response);
+    }
+
+    private void prepareCompraSummary(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Obtener los datos del cliente desde la solicitud
+        String cedula = request.getParameter("cedula");
+        String nombres = request.getParameter("nombres");
+        String apellidos = request.getParameter("apellidos");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        String provincia = request.getParameter("provincia");
+        String canton = request.getParameter("canton");
+        String distrito = request.getParameter("distrito");
+        String direccion = request.getParameter("direccion");
+
+        // Obtener los detalles del carrito de la sesión
+        ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
+
+        // Calcular el total a pagar
+        double total = objCarrito.importeTotal(carrito);
+
+        // Establecer los atributos en el request para pasarlos a la página JSP
+        request.setAttribute("cedula", cedula);
+        request.setAttribute("nombres", nombres);
+        request.setAttribute("apellidos", apellidos);
+        request.setAttribute("email", email);
+        request.setAttribute("telefono", telefono);
+        request.setAttribute("provincia", provincia);
+        request.setAttribute("canton", canton);
+        request.setAttribute("distrito", distrito);
+        request.setAttribute("direccion", direccion);
+        request.setAttribute("carrito", carrito);
+        request.setAttribute("total", total);
+
+        // Redirigir a la página de resumen de compra
+        request.getRequestDispatcher("mensaje.jsp").forward(request, response);
     }
 
     protected void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
@@ -376,66 +414,57 @@ public class Carrito_Controlador extends HttpServlet {
     protected void aplicarDescuento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Obtener el código de descuento del parámetro del formulario
         String codigoDescuento = request.getParameter("codigoDescuento");
 
-        // Obtener el carrito de la sesión
         HttpSession session = request.getSession();
         ArrayList<detallePedido> carrito = (ArrayList<detallePedido>) session.getAttribute("carrito");
 
-        // Verificar si el carrito está vacío
         if (carrito == null || carrito.isEmpty()) {
             String mensajeError = "El carrito está vacío. No se pueden aplicar descuentos.";
             request.setAttribute("mensajeError", mensajeError);
         } else {
-            // Continuar con la lógica de aplicar descuento solo si el carrito no está vacío
+
             Set<String> codigosUtilizados = (Set<String>) session.getAttribute("codigosUtilizados");
 
             if (codigosUtilizados == null) {
                 codigosUtilizados = new HashSet<>();
             }
 
-            // Verificar si ya se ha aplicado un descuento
             boolean descuentoAplicado = session.getAttribute("descuentoAplicado") != null;
 
             if (descuentoAplicado) {
                 String mensajeError = "Ya has aplicado un descuento.";
                 request.setAttribute("mensajeError", mensajeError);
             } else {
-                // Verificar si el código de descuento existe en la base de datos
+
                 Producto_DAO productoDAO = new Producto_DAO();
                 boolean cuponExistente = productoDAO.verificarExistenciaCupon(codigoDescuento);
 
                 if (!cuponExistente) {
-                    // El código de descuento no existe
+
                     String mensajeError = "El código de descuento no es válido.";
                     request.setAttribute("mensajeError", mensajeError);
                 } else {
-                    // Aplicar el descuento
+
                     double porcentajeDescuento = productoDAO.obtenerDescuentoPorCodigo(codigoDescuento);
                     for (detallePedido detalle : carrito) {
                         double precioConDescuento = detalle.getProducto().getPrecio() * (1 - porcentajeDescuento / 100);
                         detalle.getProducto().setPrecio(precioConDescuento);
                     }
 
-                    // Registrar el código de descuento como utilizado y marcar que se aplicó un descuento
                     codigosUtilizados.add(codigoDescuento);
                     session.setAttribute("codigosUtilizados", codigosUtilizados);
                     session.setAttribute("descuentoAplicado", true);
 
-                    // Mostrar un mensaje de éxito
                     String mensaje = "Descuento aplicado con éxito";
                     request.setAttribute("mensaje", mensaje);
                 }
             }
         }
 
-        // Redirigir a la página con el mensaje correspondiente
         RequestDispatcher dispatcher = request.getRequestDispatcher("carrito.jsp");
         dispatcher.forward(request, response);
     }
-
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

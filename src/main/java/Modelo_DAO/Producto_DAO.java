@@ -80,7 +80,10 @@ public class Producto_DAO {
 
         try {
             cn = Conexion.getConnection();
-            String sql = "SELECT * FROM productos WHERE nombre LIKE ?";
+            String sql = "SELECT p.*, c.nombre_categoria "
+                    + "FROM productos p "
+                    + "INNER JOIN categorias_productos c ON p.id_categoria = c.id_categoria "
+                    + "WHERE p.nombre LIKE ?";
             ps = cn.prepareStatement(sql);
 
             ps.setString(1, "%" + nombre + "%");
@@ -93,7 +96,7 @@ public class Producto_DAO {
                 obj.setPrecio(rs.getDouble("precio"));
                 obj.setImagen(rs.getString("imagen"));
                 obj.setDescripcion(rs.getString("descripcion"));
-                obj.setIdCategoria(rs.getInt("id_categoria"));
+                obj.setNombreCategoria(rs.getString("nombre_categoria")); // Aquí se establece el nombre de la categoría
                 obj.setStock(rs.getInt("stock"));
                 lista.add(obj);
             }

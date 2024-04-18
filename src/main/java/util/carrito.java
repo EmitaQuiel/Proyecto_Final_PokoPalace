@@ -63,5 +63,10 @@ public class carrito {
         lista.clear();
         guardarSesion(request, lista);
     }
- 
+
+    public boolean carritoEstaVacio(HttpServletRequest request) {
+        ArrayList<detallePedido> lista = obtenerSesion(request);
+        return lista.isEmpty();
+    }
+
 }
