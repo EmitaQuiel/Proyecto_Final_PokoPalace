@@ -93,9 +93,14 @@
                             <input type="text" id="cvv" name="cvv" class="w-full border rounded-md px-3 py-2">
                         </div>
 
-                        <input type="hidden" name="accion" value="guardarCliente">
-                        <input type="submit" value="Generar Compra"
-                               class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        <form action="mensaje.jsp" method="post" id="compraForm">
+                            <!-- Campos del formulario -->
+                            <input type="hidden" name="accion" value="guardarCliente">
+                            <input type="submit" value="Generar Compra"
+                                   class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                   id="submitButton">
+                        </form>
+
                     </form>
                 </div>
 
@@ -126,7 +131,7 @@
             </div>
         </div>
 
-        
+
         <script>
             const pagoTarjeta = document.getElementById('pago-tarjeta');
             const detallesTarjeta = document.getElementById('detalles-tarjeta');

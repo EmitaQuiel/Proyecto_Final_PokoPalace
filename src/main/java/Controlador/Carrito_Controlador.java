@@ -1,12 +1,5 @@
 package Controlador;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
-import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
-
 import Modelo.Cliente;
 import Modelo.InformacionCompra;
 import Modelo.Producto;
@@ -35,6 +28,7 @@ public class Carrito_Controlador extends HttpServlet {
     private String listarCarrito = "carrito.jsp";
     private String pagProducto = "productos.jsp";
     private carrito objCarrito = new carrito();
+    private DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -174,6 +168,7 @@ public class Carrito_Controlador extends HttpServlet {
 
     protected void guardarCliente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String cedula = request.getParameter("cedula");
         String nombres = request.getParameter("nombres");
         String apellidos = request.getParameter("apellidos");
@@ -186,7 +181,6 @@ public class Carrito_Controlador extends HttpServlet {
 
         Cliente_DAO clienteDAO = new Cliente_DAO();
         Cliente clienteExistente = clienteDAO.buscarPorCedula(cedula);
-
         int idCliente;
         if (clienteExistente != null) {
             idCliente = clienteExistente.getId_Cliente();
@@ -201,24 +195,17 @@ public class Carrito_Controlador extends HttpServlet {
             nuevoCliente.setCanton(canton);
             nuevoCliente.setDistrito(distrito);
             nuevoCliente.setDireccion(direccion);
-
             clienteDAO.insertarCliente(nuevoCliente);
-
             idCliente = clienteDAO.obtenerUltimoId();
         }
 
         double precioTotal = 0.0;
-
         ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
-
         String metodoEnvio = request.getParameter("metodo-envio");
-
         if (metodoEnvio.equals("correos")) {
             precioTotal += 2500;
         }
-
         String metodoPago = request.getParameter("metodo-pago");
-
         String estado;
         if (metodoPago.equals("tarjeta")) {
             estado = "cancelado";
@@ -228,7 +215,6 @@ public class Carrito_Controlador extends HttpServlet {
 
         DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();
         Producto_DAO productoDAO = new Producto_DAO();
-
         for (detallePedido item : carrito) {
             InformacionCompra detallePedido = new InformacionCompra();
             detallePedido.setIdCliente(idCliente);
@@ -240,20 +226,20 @@ public class Carrito_Controlador extends HttpServlet {
             detallePedido.setPrecioTotal(precioTotalDetalle);
             detallePedido.setEstadoPago(estado);
             detallePedido.setMetodoEnvio(metodoEnvio);
-
             detallePedidoDAO.insertarDetallePedido(detallePedido);
             productoDAO.disminuirStockProducto(item.getProducto().getIdProd(), item.getCantidad());
-
         }
-//        generarPDF(request, response);
-//        response.sendRedirect("mensaje.jsp");
+
+        HttpSession session = request.getSession();
+        session.setAttribute("carrito", carrito);
+        
+        resumenCompra(request, response);
         objCarrito.vaciarCarrito(request);
-        prepareCompraSummary(request, response);
     }
 
-    private void prepareCompraSummary(HttpServletRequest request, HttpServletResponse response)
+    private void resumenCompra(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Obtener los datos del cliente desde la solicitud
+
         String cedula = request.getParameter("cedula");
         String nombres = request.getParameter("nombres");
         String apellidos = request.getParameter("apellidos");
@@ -264,13 +250,14 @@ public class Carrito_Controlador extends HttpServlet {
         String distrito = request.getParameter("distrito");
         String direccion = request.getParameter("direccion");
 
-        // Obtener los detalles del carrito de la sesión
-        ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
+        HttpSession session = request.getSession();
+        ArrayList<detallePedido> carrito = (ArrayList<detallePedido>) session.getAttribute("carrito");
 
-        // Calcular el total a pagar
-        double total = objCarrito.importeTotal(carrito);
+        double total = 0.0;
+        for (detallePedido item : carrito) {
+            total += item.getCantidad() * item.getProducto().getPrecio();
+        }
 
-        // Establecer los atributos en el request para pasarlos a la página JSP
         request.setAttribute("cedula", cedula);
         request.setAttribute("nombres", nombres);
         request.setAttribute("apellidos", apellidos);
@@ -283,7 +270,6 @@ public class Carrito_Controlador extends HttpServlet {
         request.setAttribute("carrito", carrito);
         request.setAttribute("total", total);
 
-        // Redirigir a la página de resumen de compra
         request.getRequestDispatcher("mensaje.jsp").forward(request, response);
     }
 
@@ -340,76 +326,7 @@ public class Carrito_Controlador extends HttpServlet {
         return contrasenaIngresada.equals(contrasenaAlmacenada);
     }
 
-    private void generarPDF(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=compra.pdf");
-
-        try (PDDocument document = new PDDocument()) {
-            PDPage page = new PDPage();
-            document.addPage(page);
-
-            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-                contentStream.beginText();
-                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-                contentStream.newLineAtOffset(100, 700);
-
-                String cedula = request.getParameter("cedula");
-                String nombres = request.getParameter("nombres");
-                String apellidos = request.getParameter("apellidos");
-                String email = request.getParameter("email");
-                String telefono = request.getParameter("telefono");
-                String provincia = request.getParameter("provincia");
-                String canton = request.getParameter("canton");
-                String distrito = request.getParameter("distrito");
-                String direccion = request.getParameter("direccion");
-
-                contentStream.showText("Información del Cliente:");
-                contentStream.newLine();
-                contentStream.showText("Cédula: " + cedula);
-                contentStream.newLine();
-                contentStream.showText("Nombres: " + nombres);
-                contentStream.newLine();
-                contentStream.showText("Apellidos: " + apellidos);
-                contentStream.newLine();
-                contentStream.showText("Correo Electrónico: " + email);
-                contentStream.newLine();
-                contentStream.showText("Teléfono: " + telefono);
-                contentStream.newLine();
-                contentStream.showText("Provincia: " + provincia);
-                contentStream.newLine();
-                contentStream.showText("Cantón: " + canton);
-                contentStream.newLine();
-                contentStream.showText("Distrito: " + distrito);
-                contentStream.newLine();
-                contentStream.showText("Dirección: " + direccion);
-                contentStream.newLine();
-                contentStream.newLine();
-
-                ArrayList<detallePedido> carrito = objCarrito.obtenerSesion(request);
-
-                contentStream.showText("Detalles del Carrito:");
-                contentStream.newLine();
-                for (detallePedido detalle : carrito) {
-                    contentStream.showText("Producto: " + detalle.getProducto().getNombre());
-                    contentStream.newLine();
-                    contentStream.showText("Cantidad: " + detalle.getCantidad());
-                    contentStream.newLine();
-                    contentStream.showText("Precio Unitario: " + detalle.getProducto().getPrecio());
-                    contentStream.newLine();
-                    contentStream.showText("Precio Total: " + detalle.importe());
-                    contentStream.newLine();
-                    contentStream.newLine();
-                }
-
-                contentStream.endText();
-            }
-
-            document.save(response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     protected void aplicarDescuento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
