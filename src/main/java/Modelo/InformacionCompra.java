@@ -120,5 +120,4 @@ public class InformacionCompra {
         this.precioProducto = precioProducto;
     }
 
-    
 }

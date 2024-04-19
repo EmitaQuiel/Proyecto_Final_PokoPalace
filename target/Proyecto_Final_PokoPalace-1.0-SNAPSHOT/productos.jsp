@@ -151,7 +151,6 @@
                             confirmButtonText: '¡Continuar!'
                         });
 
-
                         var cartLink = document.getElementById("cartLink");
                         var cartItemCount = parseInt(cartLink.querySelector(".fw-bold").innerText);
                         cartLink.querySelector(".fw-bold").innerText = cartItemCount + 1;
@@ -168,21 +167,18 @@
                 label.addEventListener('click', function () {
                     const category = this.getAttribute('for');
                     document.getElementById(category).checked = true;
-                    document.getElementById('overlay').style.display = 'block'; // Mostrar overlay
-                    document.getElementById('loader').style.display = 'block'; // Mostrar loader
-                    // Agregar un retraso de 2 segundos (2000 milisegundos) antes de ocultar el overlay y el loader
+                    document.getElementById('overlay').style.display = 'block'; 
+                    document.getElementById('loader').style.display = 'block'; 
+                    
                     setTimeout(function () {
-                        document.getElementById('overlay').style.display = 'none'; // Ocultar overlay
-                        document.getElementById('loader').style.display = 'none'; // Ocultar loader
-                        // Enviar el formulario después de ocultar el overlay y el loader
+                        document.getElementById('overlay').style.display = 'none'; 
+                        document.getElementById('loader').style.display = 'none'; 
+                        
                         document.getElementById('filterForm').submit();
                     }, 2000);
                 });
             });
         </script>
-
-
-
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="./js/funcionalidades_index.js"></script>

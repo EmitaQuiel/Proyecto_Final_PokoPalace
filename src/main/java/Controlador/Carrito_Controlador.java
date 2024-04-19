@@ -205,6 +205,7 @@ public class Carrito_Controlador extends HttpServlet {
         if (metodoEnvio.equals("correos")) {
             precioTotal += 2500;
         }
+
         String metodoPago = request.getParameter("metodo-pago");
         String estado;
         if (metodoPago.equals("tarjeta")) {
@@ -232,7 +233,7 @@ public class Carrito_Controlador extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("carrito", carrito);
-        
+
         resumenCompra(request, response);
         objCarrito.vaciarCarrito(request);
     }
@@ -253,10 +254,25 @@ public class Carrito_Controlador extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<detallePedido> carrito = (ArrayList<detallePedido>) session.getAttribute("carrito");
 
-        double total = 0.0;
+        int total = 0;
         for (detallePedido item : carrito) {
-            total += item.getCantidad() * item.getProducto().getPrecio();
+            total += (int) (item.getCantidad() * item.getProducto().getPrecio());
         }
+
+        int costoEnvio = 0;
+
+        String metodoEnvio = request.getParameter("metodo-envio");
+        if (metodoEnvio != null && metodoEnvio.equals("correos")) {
+            costoEnvio = 2500;
+        }
+
+        int totalConIVA = (int) (total * 1.13);
+        int totalFinal = totalConIVA + costoEnvio;
+
+        request.setAttribute("totalConIVA", totalConIVA);
+        request.setAttribute("total", total);
+        request.setAttribute("costoEnvio", costoEnvio);
+        request.setAttribute("totalFinal", totalFinal);
 
         request.setAttribute("cedula", cedula);
         request.setAttribute("nombres", nombres);
@@ -270,7 +286,7 @@ public class Carrito_Controlador extends HttpServlet {
         request.setAttribute("carrito", carrito);
         request.setAttribute("total", total);
 
-        request.getRequestDispatcher("mensaje.jsp").forward(request, response);
+        request.getRequestDispatcher("resumenCompra.jsp").forward(request, response);
     }
 
     protected void registrarUsuario(HttpServletRequest request, HttpServletResponse response)
@@ -286,13 +302,17 @@ public class Carrito_Controlador extends HttpServlet {
         nuevoUsuario.setEmailCliente(emailCliente);
 
         if (!usuarioDAO.emailExistente(emailCliente)) {
-
             if (usuarioDAO.insertarUsuario(nuevoUsuario)) {
-                request.getRequestDispatcher("iniciarSesion.jsp").forward(request, response);
-                return;
+
+                request.setAttribute("registroExitoso", true);
+            } else {
+                request.setAttribute("errorRegistro", true);
             }
+        } else {
+            request.setAttribute("correoExistente", true);
         }
-        request.getRequestDispatcher("mensajeRealizarCompra.jsp").forward(request, response);
+
+        request.getRequestDispatcher("registrarse.jsp").forward(request, response);
     }
 
     protected void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
@@ -318,6 +338,8 @@ public class Carrito_Controlador extends HttpServlet {
         } else {
 
             request.setAttribute("error", "Nombre de usuario o contraseña incorrectos");
+
+            request.setAttribute("nombreUsuario", nombreUsuario);
             request.getRequestDispatcher("iniciarSesion.jsp").forward(request, response);
         }
     }
@@ -325,8 +347,6 @@ public class Carrito_Controlador extends HttpServlet {
     private boolean validarContrasena(String contrasenaIngresada, String contrasenaAlmacenada) {
         return contrasenaIngresada.equals(contrasenaAlmacenada);
     }
-
-    
 
     protected void aplicarDescuento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

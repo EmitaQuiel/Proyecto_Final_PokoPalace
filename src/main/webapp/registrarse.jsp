@@ -1,5 +1,3 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registro de Usuario</title>
         <script src="https://cdn.tailwindcss.com"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     </head>
     <body>
         <!-- component -->
@@ -149,6 +147,48 @@
                 </div>
             </div>
         </div>
+        <% if (request.getAttribute("registroExitoso") != null) { %>
+        <script>
+            // Mostrar SweetAlert para registro exitoso
+            Swal.fire({
+                icon: 'success',
+                title: '¡Registro exitoso!',
+                html: '¡Haga clic en el botón para iniciar sesión!',
+                showConfirmButton: true,
+                confirmButtonText: 'Iniciar sesión',
+                timer: 1500
+            }).then(() => {
+                // Redirigir a la página de inicio de sesión después de hacer clic en el botón
+                window.location.href = 'iniciarSesion.jsp';
+            });
+        </script>
+        <% } else { %>
+        <%-- Mostrar mensaje de correo existente --%>
+        <% if (request.getAttribute("correoExistente") != null) { %>
+        <script>
+            // Mostrar SweetAlert para correo existente
+            Swal.fire({
+                icon: 'warning',
+                title: 'El correo electrónico ya está registrado.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+        <% } %>
+
+        <%-- Mostrar mensaje de error de registro --%>
+        <% if (request.getAttribute("errorRegistro") != null) { %>
+        <script>
+            // Mostrar SweetAlert para error de registro
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al registrar. Inténtalo de nuevo más tarde.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+        <% } %>
+        <% }%>
     </body>
 </html>
 
