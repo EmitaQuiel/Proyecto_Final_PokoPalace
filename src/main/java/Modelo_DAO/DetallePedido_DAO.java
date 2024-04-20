@@ -64,10 +64,10 @@ public class DetallePedido_DAO {
                 detalle.setPrecioTotal(rs.getDouble("precio_total"));
                 detalle.setEstadoPago(rs.getString("estadoPago"));
                 detalle.setMetodoEnvio(rs.getString("metodo_envio"));
-                // Datos del cliente
+                
                 detalle.setNombreCliente(rs.getString("nombre_cliente"));
                 detalle.setApellidoCliente(rs.getString("apellido_cliente"));
-                // Datos del producto
+                
                 detalle.setNombreProducto(rs.getString("nombre_producto"));
                 detalle.setPrecioProducto(rs.getDouble("precio_producto"));
                 historialCompras.add(detalle);

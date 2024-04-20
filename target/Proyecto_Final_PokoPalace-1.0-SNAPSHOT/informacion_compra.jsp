@@ -101,7 +101,7 @@
                             <input type="radio" id="envio-tienda" name="metodo-envio" value="tienda" class="mr-2" required>
                             <label for="envio-tienda">Recoger en tienda</label>
                             <input type="radio" id="envio-correos" name="metodo-envio" value="correos" class="mr-2" required>
-                            <label for="envio-correos">Correos de Costa Rica</label>
+                            <label for="envio-correos">Correos de Costa Rica (2500)</label>
                         </div>
 
                         <form action="mensaje.jsp" method="post" id="compraForm">
@@ -148,17 +148,17 @@
                 const metodoTarjetaInput = document.getElementById('pago-tarjeta');
                 const metodoTiendaInput = document.getElementById('pago-tienda');
                 const detallesTarjeta = document.getElementById('detalles-tarjeta');
+                const envioCorreos = document.getElementById('envio-correos');
 
                 metodoTarjetaInput.addEventListener('change', function () {
                     detallesTarjeta.classList.toggle('hidden', !metodoTarjetaInput.checked);
                     if (metodoTarjetaInput.checked) {
-
                         document.getElementById('numero-tarjeta').required = true;
                         document.getElementById('nombre-tarjeta').required = true;
                         document.getElementById('fecha-vencimiento').required = true;
                         document.getElementById('cvv').required = true;
+                        envioCorreos.disabled = false; // Habilitar opción de envío por correo cuando se paga con tarjeta
                     } else {
-
                         document.getElementById('numero-tarjeta').required = false;
                         document.getElementById('nombre-tarjeta').required = false;
                         document.getElementById('fecha-vencimiento').required = false;
@@ -168,16 +168,16 @@
 
                 metodoTiendaInput.addEventListener('change', function () {
                     detallesTarjeta.classList.add('hidden');
-
                     document.getElementById('numero-tarjeta').required = false;
                     document.getElementById('nombre-tarjeta').required = false;
                     document.getElementById('fecha-vencimiento').required = false;
                     document.getElementById('cvv').required = false;
+                    envioCorreos.disabled = metodoTiendaInput.checked;
                 });
+
+                metodoTiendaInput.checked ? envioCorreos.disabled = true : envioCorreos.disabled = false;
             });
         </script>
-
-
     </body>
 </html>
 

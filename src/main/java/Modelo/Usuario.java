@@ -1,5 +1,7 @@
 package Modelo;
 
+//Objeto que representa un usuario que tiene sus atributos
+
 public class Usuario {
     private int idUsuario;
     private String nombreUsuario;
@@ -7,11 +9,10 @@ public class Usuario {
     private String emailCliente;
     private String rolUsuario;
 
-    // Constructor vacío
+    
     public Usuario() {
     }
 
-    // Constructor con todos los atributos
     public Usuario(int idUsuario, String nombreUsuario, String contrasena, String emailCliente) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
@@ -19,7 +20,6 @@ public class Usuario {
         this.emailCliente = emailCliente;
     }
 
-    // Getters y setters
     public int getIdUsuario() {
         return idUsuario;
     }

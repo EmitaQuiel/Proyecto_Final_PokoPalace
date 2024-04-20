@@ -9,7 +9,13 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     </head>
     <body>
-        <!-- component -->
+        <a href="productos.jsp" class="fixed top-4 left-4 z-50">
+            <button class="cursor-pointer duration-200 hover:scale-125 active:scale-100 bg-white text-black rounded-full shadow-md" title="Regresar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24" class="stroke-current">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" d="M11 6L5 12M5 12L11 18M5 12H19"></path>
+                </svg>
+            </button>
+        </a>
         <div
             class="bg-black text-white flex min-h-screen flex-col items-center pt-16 sm:justify-center sm:pt-0"
             >

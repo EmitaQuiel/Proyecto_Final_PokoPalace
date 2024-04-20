@@ -1,5 +1,7 @@
 package Modelo;
 
+//        Objeto que representa un cliente el cual guarda sus atributos
+
 public class Cliente {
 
     private int id_Cliente;
@@ -16,6 +18,8 @@ public class Cliente {
     public Cliente() {
     }
 
+//    Esto es un constructor el cual inicializa los atributos del objeto despues de proporcionarle los valores.
+    
     public Cliente(int id_Cliente, String cedula, String nombre, String apellidos, String telefono, String direccion, String provincia, String canton, String distrito, String email) {
         this.id_Cliente = id_Cliente;
         this.cedula = cedula;
@@ -108,6 +112,4 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    
 }

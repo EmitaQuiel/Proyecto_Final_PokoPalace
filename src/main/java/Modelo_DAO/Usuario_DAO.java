@@ -15,9 +15,11 @@ public class Usuario_DAO {
     public boolean insertarUsuario(Usuario usuario) {
         Connection cn = null;
         PreparedStatement ps = null;
+        //esta variable indica si se insertaron los datos o no
         boolean exito = false; 
 
         try {
+            //Consulta de SQL para la inserscion de datos en la tabla usuarios
             cn = Conexion.getConnection();
             String sql = "INSERT INTO usuarios (nombre_usuario, contrasena, email_cliente) VALUES (?, ?, ?)";
             ps = cn.prepareStatement(sql);
@@ -25,16 +27,16 @@ public class Usuario_DAO {
             ps.setString(2, usuario.getContrasena());
             ps.setString(3, usuario.getEmailCliente());
 
+            // ejecuta la consulta y obtiene el numero de filas afectadas
             int filasAfectadas = ps.executeUpdate();
 
-            
+            //verifica si al menos una fila fue afecta y de ser asi el exito pasa a true
             if (filasAfectadas > 0) {
                 exito = true;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return exito;
     }
 
@@ -44,6 +46,7 @@ public class Usuario_DAO {
         ResultSet rs = null;
         boolean existe = false;
 
+        //consulta de sql para verifica si existe el email en la tabla clientes
         try {
             cn = Conexion.getConnection();
             String sql = "SELECT COUNT(*) FROM usuarios WHERE email_cliente = ?";
@@ -51,8 +54,8 @@ public class Usuario_DAO {
             ps.setString(1, emailCliente); 
             rs = ps.executeQuery();
 
+            //si hay email existente la variable pasa a true 
             if (rs.next()) {
-                
                 existe = rs.getInt(1) > 0;
             }
         } catch (SQLException ex) {
@@ -61,19 +64,24 @@ public class Usuario_DAO {
         return existe;
     }
 
+    //recupera el historial de compra del usuario a partir de su id
     public List<InformacionCompra> obtenerHistorialCompras(int idUsuario) {
         Connection cn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
+        //se cra una lista la cual guardara los datos del historial
         List<InformacionCompra> historialCompras = new ArrayList<>();
-
         try {
             cn = Conexion.getConnection();
+            
+            // se consulta los datos a partir del id_cliente
             String sql = "SELECT * FROM detalles_pedido WHERE id_cliente = ?";
             ps = cn.prepareStatement(sql);
             ps.setInt(1, idUsuario);
             rs = ps.executeQuery();
-
+            
+            //recorre los resultados y se crea un nuevo objeto el cual guardara los valores recuperados y luego se anade a la lista
             while (rs.next()) {
                 InformacionCompra detalle = new InformacionCompra();
                 detalle.setIdDetalle(rs.getInt("id_detalle"));

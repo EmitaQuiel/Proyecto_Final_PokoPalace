@@ -1,6 +1,6 @@
 
 package Modelo;
-
+//Objeto que representa un producto con sus atributos
 public class Producto {
     private int idProd;
     private String nombre;

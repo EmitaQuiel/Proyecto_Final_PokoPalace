@@ -9,7 +9,16 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
-        
+
+        <a href="productos.jsp" class="fixed top-4 left-4 z-50">
+            <button class="cursor-pointer duration-200 hover:scale-125 active:scale-100 bg-white text-black rounded-full shadow-md" title="Regresar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24" class="stroke-current">
+                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" d="M11 6L5 12M5 12L11 18M5 12H19"></path>
+                </svg>
+            </button>
+        </a>
+
+
         <div class="bg-black text-white flex min-h-screen flex-col items-center pt-16 sm:justify-center sm:pt-0">
             <a href="#">
                 <div class="text-foreground font-semibold text-2xl tracking-tighter mx-auto flex items-center gap-2">
@@ -48,7 +57,6 @@
                                         <div class="flex justify-between">
                                             <label class="text-xs font-medium text-muted-foreground group-focus-within:text-white text-gray-400">Usuario</label>
                                         </div>
-                                        <%-- Mostrar valor anterior del campo nombreUsuario --%>
                                         <input type="text" name="nombreUsuario" placeholder="Usuario" autocomplete="off" class="block w-full border-0 bg-transparent p-0 text-sm file:my-1 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:font-medium placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 sm:leading-7 text-foreground" value="<%= request.getAttribute("nombreUsuario") != null ? request.getAttribute("nombreUsuario") : ""%>">
                                     </div>
                                 </div>
@@ -76,7 +84,7 @@
                 </div>
             </div>
         </div>
-                                    
-                                    
+
+
     </body>
 </html>

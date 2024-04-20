@@ -2,7 +2,6 @@ package Modelo_DAO;
 
 import Modelo.InformacionCompra;
 import Modelo.Producto;
-import Modelo.detallePedido;
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Producto_DAO {
 

@@ -3,6 +3,7 @@ package util;
 import Modelo.detallePedido;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class carrito {
 
@@ -59,9 +60,13 @@ public class carrito {
     }
 
     public void vaciarCarrito(HttpServletRequest request) {
-        ArrayList<detallePedido> lista = obtenerSesion(request);
-        lista.clear();
-        guardarSesion(request, lista);
+        HttpSession session = request.getSession();
+        ArrayList<detallePedido> lista = (ArrayList<detallePedido>) session.getAttribute("carrito");
+        if (lista != null) {
+            lista.clear();
+            session.removeAttribute("descuentoAplicado");
+            guardarSesion(request, lista);
+        }
     }
 
     public boolean carritoEstaVacio(HttpServletRequest request) {

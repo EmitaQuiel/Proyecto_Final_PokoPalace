@@ -10,29 +10,28 @@
             rel="stylesheet"
             href="./bootstrap-5.3.2-dist/css/bootstrap.min.css"
             />
-
         <script src="./bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
         <script src="./bootstrap-5.3.2-dist/css/bootstrap-grid.css"></script>
         <script src="https://unpkg.com/scrollreveal"></script>
         <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/style.css"/>
     </head>
     <body>
         <header id="home">
             <nav class="modern-navbar">
                 <div class="modern-logo">
-                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+                    <a href="./index.jsp"><img src="./assets/img/logoPokoPalace.png" alt="logo" style="max-width: 100px; max-height: 70px;"></a> 
                 </div>
                 <ul class="modern-nav">
                     <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
-                    <li class="modern-nav-items"><a href="#about"><span class="link-text">Sobre nosotros</span><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="modern-nav-items"><a href="#discover"><span class="link-text">Figuras</span><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="modern-nav-items"><a href="#app"><span class="link-text">Cartas</span><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="modern-nav-items"><a href="#blog"><span class="link-text">Exclusivos</span><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="modern-nav-items"><a href="#journals"><span class="link-text">Ultimos Lanzamientos</span><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li class="modern-nav-items"><a href="#gallery"><span class="link-text">Soulsborne</span><i class="fa-solid fa-user"></i></a></li>
-                    <li class="modern-nav-items"><a href="#razones"><span class="link-text">Noticias</span><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li class="modern-nav-items"><a href="#about"><span class="link-text">Sobre nosotros</span><i class="fa-solid fa-info-circle"></i></a></li>
+                    <li class="modern-nav-items"><a href="#discover"><span class="link-text">Figuras</span><i class="fa-solid fa-swatchbook"></i></a></li>
+                    <li class="modern-nav-items"><a href="#app"><span class="link-text">Cartas</span><i class="fa-solid fa-scroll"></i></a></li>
+                    <li class="modern-nav-items"><a href="#blog"><span class="link-text">Exclusivos</span><i class="fa-solid fa-gem"></i></a></li>
+                    <li class="modern-nav-items"><a href="#journals"><span class="link-text">Ultimos Lanzamientos</span><i class="fa-solid fa-rocket"></i></a></li>
+                    <li class="modern-nav-items"><a href="#gallery"><span class="link-text">Soulsborne</span><i class="fa-solid fa-users"></i></a></li>
+                    <li class="modern-nav-items"><a href="#razones"><span class="link-text">Noticias</span><i class="fa-solid fa-newspaper"></i></a></li>
                 </ul>
                 <form action="Carrito_Controlador" method="get" class="search-form">
                     <input type="hidden" name="accion" value="buscar">
@@ -77,7 +76,7 @@
                             <p>de ventas</p>
                         </div>
                         <div class="about__card">
-                            <h4>+200</h4>
+                            <h4>+150</h4>
                             <p>productos</p>
                         </div>
                     </div>
@@ -133,7 +132,7 @@
             </div>
         </section>
 
-        <h2 class="section__header">Categorias</h2>
+        <h2 class="section__header" id="categorias_pagina">Categorias</h2>
         <p class="section__subheader">
             ¡Explora nuestras distintas categorias!
         </p>
@@ -141,31 +140,26 @@
             <div class="cardcategory">
                 <div class="contentcategory">
                     <h2 class="titlecategory">Peluches</h2>
-                    <button class="btncategory" data-category="videojuegos">Ver</button>
                 </div>
             </div>
             <div class="cardcategory">
                 <div class="contentcategory">
                     <h2 class="titlecategory">Consolas</h2>
-                    <button class="btncategory" data-category="consolas">Ver</button>
                 </div>
             </div>
             <div class="cardcategory">
                 <div class="contentcategory">
                     <h2 class="titlecategory">TCG</h2>
-                    <button class="btncategory" data-category="eshop">Ver</button>
                 </div>
             </div>
             <div class="cardcategory">
                 <div class="contentcategory">
                     <h2 class="titlecategory">Videojuegos</h2>
-                    <button class="btncategory" data-category="amiibos">Ver</button>
                 </div>
             </div>
             <div class="cardcategory">
                 <div class="contentcategory">
                     <h2 class="titlecategory">Figuras</h2>
-                    <button class="btncategory" data-category="accesorios">Ver</button>
                 </div>
             </div>
         </section>
@@ -179,7 +173,31 @@
         </p>
         <section class="mostrar-cartas" id="app">
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_mew_ex.jpg">
+                <img src="./assets/img/Cards/card_arceus.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_charizard.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_dragapult.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_eevee.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_giratina.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_greninja.jpg">
+            </div>
+
+            <div class="card-pokemon">
+                <img src="./assets/img/Cards/card_lugia.jpg">
             </div>
 
             <div class="card-pokemon">
@@ -187,43 +205,43 @@
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_charizard_vmax.jpg">
+                <img src="./assets/img/Cards/card_moltres.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_sylveon_v.jpg">
+                <img src="./assets/img/Cards/card_pikachu.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_rayquaza_vmax.jpg">
+                <img src="./assets/img/Cards/card_poliwhirl.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_pikachu_vmax.jpg">
+                <img src="./assets/img/Cards/card_rayquaza.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_dragonite_v.jpg">
+                <img src="./assets/img/Cards/card_reshiram.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_gengar_vmax.jpg">
+                <img src="./assets/img/Cards/card_sylveon.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_ninetales_ex.jpg">
+                <img src="./assets/img/Cards/card_trio.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_cinderace_vmax.jpg">
+                <img src="./assets/img/Cards/card_umbreon.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_cinderace_vmax.jpg">
+                <img src="./assets/img/Cards/card_zekrom.jpg">
             </div>
 
             <div class="card-pokemon">
-                <img src="./assets/img/Cards/card_cinderace_vmax.jpg">
+                <img src="./assets/img/Cards/card_zoroark.jpg">
             </div>
 
             <style class="hover"></style>
@@ -278,7 +296,7 @@
                         <div class="journals__content">
                             <h4>Stellar Blade</h4>
                             <div class="journals__footer">
-                                <p>Salva a la humanidad de la extinción en esta electrizante historia de acción y aventura.</p>
+                                <p>Salva a la humanidad de la extinción y descubre la verdad en esta electrizante historia de acción y aventura.</p>
                             </div>
                         </div>
                     </div>
@@ -447,14 +465,13 @@
                         <div class="service-card">
 
                             <figure class="card-icon">
-                                <img src="./assets/img/service-icon-1.png" width="70" height="70" loading="lazy" alt="service icon">
+                                <i class="fas fa-truck" style="color: #ff7f7f; font-size: 48px;"></i>
                             </figure>
 
-                            <h3 class="h3 card-title">Entrega Gratuita en el Día</h3>
+                            <h3 class="h3 card-title">Envios Gratis a todo el pais</h3>
 
                             <p class="card-text">
-                                Haz tu pedido antes de las 14:00 (hora local) para obtener la entrega gratuita en pedidos superiores a $35
-                                hoy mismo. </p>
+                                ¡Haz tu pedido el primer dia del mes y sera absolutamente gratis! </p>
 
                         </div>
                     </li>
@@ -463,13 +480,13 @@
                         <div class="service-card">
 
                             <figure class="card-icon">
-                                <img src="./assets/img/service-icon-2.png" width="70" height="70" loading="lazy" alt="service icon">
+                                <i class="far fa-calendar-alt" style="color: #ff7f7f; font-size: 48px;"></i>
                             </figure>
 
                             <h3 class="h3 card-title">30 Dias de devolución</h3>
 
                             <p class="card-text">
-                                35% de descuento en tu primer pedido más 5% en todos los pedidos futuros.
+                                Luego de tu primera compra tienes 30 dias de devolución.
                             </p>
 
                         </div>
@@ -479,13 +496,13 @@
                         <div class="service-card">
 
                             <figure class="card-icon">
-                                <img src="./assets/img/service-icon-3.png" width="70" height="70" loading="lazy" alt="service icon">
+                                <i class="fas fa-shield-alt" style="color: #ff7f7f; font-size: 48px;"></i>
                             </figure>
 
                             <h3 class="h3 card-title">Seguridad de Pago</h3>
 
                             <p class="card-text">
-                                25% de descuento en su pedido en línea de $30+. Disponible en la mayoría de los establecimientos.
+                                ¡Contamos con amplia experiencia y sellos de seguridad!
                             </p>
 
                         </div>
@@ -495,13 +512,13 @@
                         <div class="service-card">
 
                             <figure class="card-icon">
-                                <img src="./assets/img/service-icon-4.png" width="70" height="70" loading="lazy" alt="service icon">
+                                <i class="far fa-comments" style="color: #ff7f7f; font-size: 48px;"></i>
                             </figure>
 
                             <h3 class="h3 card-title" >Soporte 24 horas en linea</h3>
 
                             <p class="card-text">
-                                Compre en línea y reciba sus pedidos superiores a $40 de forma rápida y gratuita.
+                                DM's abiertos en todas nuestras redes 24/7.
                             </p>
 
                         </div>
@@ -512,11 +529,77 @@
             </div>
         </section>
 
-        <section class="footer">
+        <footer>
+            <div class="footer-container">
+                <div class="footer-row">
+                    <div class="footer-col" id="company">
+                        <img src="./assets/img/logopokopalace-blanco (2).png" alt="" class="footer-logo">
+                        <p>
+                            Tu puerta de entrada al mundo del entretenimiento. Descubre la magia de los juegos y la tecnología. 
+                        </p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/?locale=es_LA"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+                            <a href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+
+                    <div class="footer-col" id="services">
+                        <h3>Servicios</h3>
+                        <div class="footer-links">
+                            <a href="./index.jsp">Inicio</a>
+                            <a href="./productos.jsp">Productos</a>
+                            <a href="#categorias_pagina">Categorias</a>
+                            <a href="./carrito.jsp">Carrito</a>
+                        </div>
+                    </div>
+
+                    <div class="footer-col" id="useful-footer-links">
+                        <h3>Pagina</h3>
+                        <div class="footer-links">
+                            <a href="#about">Sobre nosotros</a>
+                            <a href="#discover">Figuras</a>
+                            <a href="#app">Cartas</a>
+                            <a href="#journals">Ultimos Lanzamientos</a>
+
+                        </div>
+                    </div>
+
+                    <div class="footer-col" id="contact">
+                        <h3>Contacto</h3>
+                        <div class="contact-details">
+                            <i class="fa fa-location"></i>
+                            <p>Guapiles, <br> Costa Rica</p>
+                        </div>
+                        <div class="contact-details">
+                            <i class="fa fa-phone"></i>
+                            <p>+506 6778-0987</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-row">
+                    <div class="footer-form">
+                        <form action="Carrito_Controlador" method="get" class="search-form">
+                            <input type="hidden" name="accion" value="buscar">
+                            <div class="search-container">
+                                <input type="text" name="nombreProducto" class="search-input" placeholder="Busca un producto..." style="color: white;">
+                                <button type="submit" class="search-button"><i class="fa-solid fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
             <div class="footer__bar">
                 Copyright © 2024 Emily Fernanda Castillo Quiel
             </div>
-        </section>
+        </footer>
+
+
 
         <script >
 

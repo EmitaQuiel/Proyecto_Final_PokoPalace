@@ -29,7 +29,7 @@
         <header>
             <nav class="modern-navbar">
                 <div class="modern-logo">
-                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+                    <a href="./index.jsp"><img src="./assets/img/logoPokoPalace.png" alt="logo"style="max-width: 100px; max-height: 70px"></a> 
                 </div>
                 <ul class="modern-nav">
                     <li class="modern-nav-items"><a href="./productos.jsp"><span class="link-text">Productos</span><i class="fa-solid fa-store"></i></a></li>
@@ -179,10 +179,14 @@
             String mensaje = (String) request.getAttribute("mensaje");
             if (mensaje != null && !mensaje.isEmpty()) {
         %>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%= mensaje%>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <script>
+            Swal.fire({
+                title: 'Éxito',
+                text: '<%= mensaje%>',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
         <%
             }
         %>
@@ -191,17 +195,26 @@
             String mensajeError = (String) request.getAttribute("mensajeError");
             if (mensajeError != null && !mensajeError.isEmpty()) {
         %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <%= mensajeError%>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <script>
+            Swal.fire({
+                title: 'Error',
+                text: '<%= mensajeError%>',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
+        </script>
         <%
             }
         %>
 
+
+        <footer>
+            <div class="footer__bar">
+                Copyright © 2024 Emily Fernanda Castillo Quiel
+            </div>
+        </footer>
         <script>
             function borrarCodigo() {
-                // Limpiar el campo de código de descuento
                 document.getElementsByName("codigoDescuento")[0].value = "";
             }
         </script>
@@ -211,30 +224,27 @@
             function submitForm() {
                 var codigoDescuento = document.getElementsByName('codigoDescuento')[0].value;
                 if (codigoDescuento.trim() !== '') {
-                    // Crear un formulario dinámicamente
+
                     var form = document.createElement('form');
                     form.method = 'post';
                     form.action = 'Carrito_Controlador';
 
-                    // Input para la acción
                     var accionInput = document.createElement('input');
                     accionInput.type = 'hidden';
                     accionInput.name = 'accion';
                     accionInput.value = 'aplicarDescuento';
                     form.appendChild(accionInput);
 
-                    // Input para el código de descuento
                     var codigoInput = document.createElement('input');
                     codigoInput.type = 'hidden';
                     codigoInput.name = 'codigoDescuento';
                     codigoInput.value = codigoDescuento;
                     form.appendChild(codigoInput);
 
-                    // Agregar el formulario al cuerpo del documento y enviarlo
                     document.body.appendChild(form);
                     form.submit();
                 } else {
-                    // Mensaje de error si el campo está vacío
+
                     Swal.fire({
                         icon: 'warning',
                         title: 'Por favor ingrese un código de descuento.',
@@ -244,13 +254,9 @@
             }
         </script>
 
-        <script>
-            // Agrega un event listener al botón "Vaciar Carrito"
+        <script>   
             document.getElementById('vaciar-carrito').addEventListener('click', function (event) {
-                // Previene el comportamiento por defecto del enlace
                 event.preventDefault();
-
-                // Muestra la alerta
                 Swal.fire({
                     title: "¿Estás seguro?",
                     text: "Esta acción vaciará completamente tu carrito. ¿Estás seguro de que deseas continuar?",
@@ -261,7 +267,7 @@
                     confirmButtonText: "Sí, vaciar carrito",
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
-                    // Si el usuario confirma la acción, redirige al enlace del botón "Vaciar Carrito"
+                   
                     if (result.isConfirmed) {
                         window.location.href = document.getElementById('vaciar-carrito').href;
                     }
@@ -271,12 +277,8 @@
 
         <script>
             document.getElementById('formulario-pago').addEventListener('submit', function (event) {
-                // Evita que el formulario se envíe automáticamente
                 event.preventDefault();
-
-
                 if (carritoEstaVacio()) {
-                    // El carrito está vacío, muestra un SweetAlert
                     Swal.fire({
                         icon: 'warning',
                         title: '¡El carrito está vacío!',
@@ -284,15 +286,11 @@
                         confirmButtonText: 'Aceptar'
                     });
                 } else {
-                    // El carrito no está vacío, envía el formulario manualmente
+
                     this.submit();
                 }
             });
-
             function carritoEstaVacio() {
-                // Aquí puedes implementar la lógica para verificar si el carrito está vacío
-                // Puedes utilizar una variable global que contenga los productos en el carrito o hacer una llamada AJAX al servidor
-                // Por ejemplo, podrías verificar si el total del carrito es igual a cero
                 var total = parseFloat("${total}");
                 return total === 0;
             }

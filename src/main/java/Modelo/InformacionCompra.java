@@ -1,6 +1,8 @@
 
 package Modelo;
 
+//Objeto que representa una factura donde se guardan los datos
+
 public class InformacionCompra {
     private int idDetalle;
     private int idCliente;
@@ -15,6 +17,8 @@ public class InformacionCompra {
     private String apellidoCliente;
     private String nombreProducto;
     private double precioProducto;
+    
+//    Coloque los metodos getters para acceder a la informacion y para trabajar con ellos los setters
     
     public int getIdDetalle() {
         return idDetalle;

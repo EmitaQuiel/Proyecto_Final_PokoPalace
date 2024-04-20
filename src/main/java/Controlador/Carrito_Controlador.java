@@ -33,8 +33,9 @@ public class Carrito_Controlador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        //parametro que indica la accion que se desea realizar 
         String accion = request.getParameter("accion");
-
+        // evalua el valor del parametro accion para realizar una de las acciones
         switch (accion) {
             case "listar":
                 Listar(request, response);
@@ -204,14 +205,22 @@ public class Carrito_Controlador extends HttpServlet {
         String metodoEnvio = request.getParameter("metodo-envio");
         if (metodoEnvio.equals("correos")) {
             precioTotal += 2500;
+            
+            metodoEnvio = "Correos de Costa Rica";
+        } else if (metodoEnvio.equals("tienda")) {
+            metodoEnvio = "Retirar en tienda";
         }
 
         String metodoPago = request.getParameter("metodo-pago");
         String estado;
         if (metodoPago.equals("tarjeta")) {
-            estado = "cancelado";
+            estado = "Cancelado";
+            
+            metodoPago = "Pago con Tarjeta";
         } else {
-            estado = "sin cancelar";
+            estado = "Sin cancelar";
+            
+            metodoPago = "Pagar en Tienda";
         }
 
         DetallePedido_DAO detallePedidoDAO = new DetallePedido_DAO();

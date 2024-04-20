@@ -14,7 +14,7 @@
         <header>
             <nav class="modern-navbar">
                 <div class="modern-logo">
-                    <a href="./index.jsp"><img src="./assets/img/catlogo.png" alt="logo" width="60px"></a> 
+                    <a href="./index.jsp"><img src="./assets/img/logoPokoPalace.png" alt="logo" style="max-width: 100px; max-height: 70px"></a> 
                 </div>
                 <ul class="modern-nav">
                     <li class="modern-nav-items"><a href="./index.jsp"><span class="link-text">Inicio</span><i class="fa-solid fa-store"></i></a></li>
@@ -25,112 +25,69 @@
 
             </nav>
         </header>
-
         <style>
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                font-family: "Inter", sans-serif;
-                --font-sans: "Inter";
+            body{
+                margin-top: 120px;
+                
             }
-            body {
-                font-family: "Inter", sans-serif;
-                --font-sans: "Inter";
-                background-color: #464646;
-                margin-top: 100px;
-            }
-        </style>    
-        <div class="relative w-full overflow-auto">
-            <table class="w-full caption-bottom text-sm">
-                <thead class="[&amp;_tr]:border-b">
-                    <tr
-                        class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+        </style>
+        <div class="grid gap-6 md:gap-8 px-4 md:px-6">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold">Historial de compras</h1>
+            </div>
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <c:forEach var="detalle" items="${historialCompras}">
+                    <div
+                        class="rounded-lg border bg-white text-black shadow-sm"
+                        data-v0-t="card"
                         >
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[150px]"
-                            >
-                            Código Compra
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Producto
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Cantidad
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Precio Compra
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Método Pago
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Precio Total
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
-                            >
-                            Estado Pago
-                        </th>
-                        <th
-                            class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 w-[150px]"
-                            >
-                            Método de Envío
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="[&amp;_tr:last-child]:border-0">
-                    <c:forEach var="detalle" items="${historialCompras}">
-                        <tr
-                            class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
-                            >
-                            <td
-                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
-                                >
-                                00${detalle.idDetalle}
-                            </td>
-                            <td
-                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-sm"
-                                >
-                                ${detalle.nombreProducto}
-                            </td>
-                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                ${detalle.cantidad}
-                            </td>
-                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                ${detalle.precioCompra}
-                            </td>
-                            <td
-                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 text-sm"
-                                >
-                                ${detalle.metodoPago}
-                            </td>
-                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                ${detalle.precioTotal}
-                            </td>
-                            <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
-                                ${detalle.estadoPago}
-                            </td>
-                            <td
-                                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
-                                >
-                                ${detalle.metodoEnvio}
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                        <div class="flex flex-col space-y-1.5 p-6">
+                            <div class="flex items-center justify-between">
+                                <div class="text-lg font-medium">#00${detalle.idDetalle}</div>
+                                <div
+                                    class="inline-flex w-fit items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                    >
+                                    ${detalle.estadoPago}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 grid gap-4">
+                            <div class="grid gap-2">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    Producto
+                                </div>
+                                <div class="font-medium">${detalle.nombreProducto}</div>
+                            </div>
+                            <div class="grid gap-2">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    Cantidad
+                                </div>
+                                <div>${detalle.cantidad}</div>
+                            </div>
+                            <div class="grid gap-2">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    Método de pago
+                                </div>
+                                <div>${detalle.metodoPago}</div>
+                            </div>
+                            <div class="grid gap-2">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    Precio total
+                                </div>
+                                <div class="font-medium">₡${detalle.precioTotal}</div>
+                            </div>
+                            <div class="grid gap-2">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">
+                                    Método de envío
+                                </div>
+                                <div>${detalle.metodoEnvio}</div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+
+
     </body>
 </html>

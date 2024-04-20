@@ -1,16 +1,13 @@
 package Modelo_DAO;
 
 import Modelo.Cliente;
-import Modelo.InformacionCompra;
-import Modelo.Usuario;
 import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
+//Este metodo recibe el objeto de Cliente que esta en la carperta modelo como parametro para poder trabajar con el
 public class Cliente_DAO {
 
     private Connection cn = null;
@@ -20,9 +17,12 @@ public class Cliente_DAO {
         Connection cn = null;
         PreparedStatement ps = null;
 
+        //Se define una consulta SQL para insertar un nuevo cliente
         try {
             cn = Conexion.getConnection();
             String sql = "INSERT INTO clientes (cedula, nombres, apellidos, email, telefono, provincia, canton, distrito, direccion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            //Establece los valores para los parametros y el numero numero de la columna
             ps = cn.prepareStatement(sql);
             ps.setString(1, cliente.getCedula());
             ps.setString(2, cliente.getNombre());
@@ -37,38 +37,26 @@ public class Cliente_DAO {
             ps.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (cn != null) {
-                    cn.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
         }
     }
 
     public int obtenerUltimoId() {
         int idCliente = 0;
 
+        //Esta cojsulta SQL es para obtener el ultimo cliente de la tabla clientes
         try {
             cn = Conexion.getConnection();
             String sql = "SELECT MAX(id_cliente) AS ultimo_id FROM clientes";
             ps = cn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
+            //Verifica si hay algun resultado y se obtiene para guardarlo en la variable idCliente
             if (rs.next()) {
                 idCliente = rs.getInt("ultimo_id");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-
-        }
-
+        } 
         return idCliente;
     }
 
@@ -78,6 +66,7 @@ public class Cliente_DAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+        //Busca todos los datos de un cliente por medio de su cedula
         try {
             cn = Conexion.getConnection();
             String sql = "SELECT * FROM clientes WHERE cedula = ?";
@@ -85,6 +74,7 @@ public class Cliente_DAO {
             ps.setString(1, cedula);
             rs = ps.executeQuery();
 
+            //Recupera los datos de la tabla y los almacena en cliente
             if (rs.next()) {
                 cliente = new Cliente();
                 cliente.setId_Cliente(rs.getInt("id_cliente"));
@@ -103,6 +93,4 @@ public class Cliente_DAO {
         } 
         return cliente;
     }
-
-    
 }
